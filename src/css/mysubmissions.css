@@ -1,0 +1,122 @@
+
+.reviewsContainer {
+  display:flex;
+  flex-direction: column;
+  margin-top: 152px;
+  padding-top: 20px;
+  background-color:#110030;
+  margin-right: 15px ;
+}
+
+.singleReviewContainer {
+  display:flex;
+  flex-direction: row;
+  color: rgb(255, 255, 255);
+  margin-left: 230px;
+}
+
+.singleReview {
+  width: 60%;
+  margin: 3%;
+  margin-left: 40px;
+  border-radius: 10px;
+  background-color: rgb(26, 15, 83);
+  border: 1px solid rgb(1, 0, 6);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reviewLog {
+  width: 20%;
+  margin: 3%;
+  padding: 10px; 
+  margin-left: 40px;
+  border-radius: 10px;
+  background-color: rgb(26, 15, 83);
+  border: 1px solid rgb(1, 0, 6);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reviewProject {
+  text-align: center;
+  padding: 10px; 
+  border-bottom: solid 3px ;
+}
+
+.singleReview img {
+  height: 30px;
+  width: 30px;
+}
+
+.reviewTitle {
+  width: 40%;
+  padding-left: 10px; 
+}
+
+.tagList {
+  width: 60%;
+  padding-right: 10px;
+  list-style: none;
+  text-align: right;
+}
+
+.tagList li {
+  display: inline-block;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 5px 5px 0 0;
+  border-bottom: 3px solid #ccc;
+  background-color: #eee5e5;
+  scroll-snap-align: start;
+}
+
+.reviewsAndTags {
+  display: flex;
+  flex-direction: row;
+  background-color: #eee5e5;
+  color: rgb(8, 1, 17);
+  border-radius: 0 0 10px 10px;
+}
+
+.userAndLog {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
+
+.userLogUser {
+  color: #ccc;
+  padding-left: 10px;
+  line-height: 0.1;
+}
+
+.userLog {
+  padding-left: 10px;
+  line-height: 0.1;
+}
+
+.chatLogo {
+  display: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1350px) {
+  .singleReviewContainer {
+    flex-direction: column;
+    /*max-width: 77vw;*/ /* por si algún día  queiro que la pantalla de movil se vea bien*/
+  }
+
+  .singleReview {
+    width: 85%;
+  }
+  
+  .reviewLog {
+    width: 300px;
+    margin-left: 40px;
+  }
+
+  .chatLogo {
+    display: block;
+    margin: auto;
+  }
+
+}

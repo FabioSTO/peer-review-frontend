@@ -1,0 +1,41 @@
+.topmenu {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color:rgb(20, 12, 60);
+  height: 52px;
+  overflow: auto;
+  font-size: large;
+  font-weight: bold;
+  margin-left: 230px;
+  margin-top: 102px;
+  position: fixed;
+  scrollbar-width: thin; /* Ancho del scrollbar */
+}
+
+.topmenu::-webkit-scrollbar {
+  width: 2px; /* Ancho de la barra de desplazamiento */
+}
+
+.topmenuSection {
+  padding: 14px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: #eee5e5;
+  border-radius: 20px 20px 0 0; 
+  cursor: default;
+  border: 1px solid rgb(1, 0, 6);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.topmenu .topmenuSection:hover {
+  background-color: #dad5d5;
+  color: white;
+}
+
+#selected {
+  background-color: #110030;
+  color: white;
+  border-bottom: hidden;
+}

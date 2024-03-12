@@ -1,0 +1,315 @@
+.organizationsInterface {
+  display: flex;
+  flex-direction: column;
+  background-color:#110030;
+}
+
+.buttonsOrganization {
+  display:flex;
+  flex-direction: row;
+  margin-left: 270px;
+  width: 700px;
+  margin-bottom: 20px;
+}
+
+.buttonsOrganization .botonRegister {
+  margin-right: 25px;
+}
+
+.organizationsContainer {
+  display:flex;
+  flex-direction: row;
+  margin-top: 152px;
+  padding-top: 20px;
+  background-color:#110030;
+  margin-right: 15px ;
+}
+
+.singleOrganizationContainer {
+  display:flex;
+  flex-direction: row;
+  color: rgb(255, 255, 255);
+  margin-left: 230px;
+}
+
+.singleOrganization {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 3%;
+  margin-left: 40px;
+  border-radius: 10px;
+  background-color: rgb(26, 15, 83);
+  border: 1px solid rgb(1, 0, 6);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.projectsOrganization {
+  display: flex;
+  flex-direction: column;
+  margin: 3%;
+  padding: 10px; 
+  padding-top: 20px;
+  margin-left: 40px;
+  border-radius: 10px;
+  background-color: rgb(26, 15, 83);
+  border: 1px solid rgb(1, 0, 6);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.projectsOrganizationRight {
+  display: flex;
+  flex-direction: column;
+  margin: 3%;
+  padding: 10px; 
+  padding-top: 30px;
+  margin: auto;
+  border-radius: 10px;
+  background-color: rgb(26, 15, 83);
+  border: 1px solid rgb(1, 0, 6);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.showBorder {
+  box-shadow: -3px -3px 3px rgb(64, 12, 86)
+}
+
+.organizationsWrapper {
+  width: 950px;
+  display:flex;
+  flex-direction: column;
+  background-color:#110030;
+  margin-right: 15px ;
+}
+
+.singleProjectOrganization {
+  color: #110030;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 300px;
+}
+
+.orgPicture {
+  height: 120px;
+  width: 120px;
+  margin: 2%;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.orgNameAndOptions {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.orgNameAndAdmin {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.isAdmin {
+  margin-right: 15px;
+  color: #bb2ff7;
+  -webkit-text-stroke-width: 0.2px; /* Ancho del borde */
+  -webkit-text-stroke-color: rgb(238, 131, 255);
+}
+
+.orgOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: 20px;
+}
+
+.optionsIcon {
+  height: 30px;
+  width: 30px;
+  margin: 6px;
+}
+
+.optionsText {
+  justify-content: center;
+  align-items: center;
+  color: #9a9b9e;
+}
+
+.singleOption {
+  display: flex;
+  flex-direction: row;
+  border: #ccc solid 1px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 10%;
+  padding-right: 2%;
+  height: 40px;
+  align-items: center;
+}
+
+.backgroundSpace {
+  height: 40px;
+  margin-bottom: -22px;
+}
+
+.projectNameBack {
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 0 0 10px 10px;
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+@media screen and (max-width: 750px) {
+  .buttonsOrganization {
+    flex-direction: column;
+    width: 310px;
+    margin: auto;
+    margin-left: 280px;
+  }
+  
+  
+  .orgOptions {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    padding-bottom: 10px;
+    margin: auto;
+  }
+
+  .singleOption {
+    margin-top: 15px;
+  }
+
+  .projectsOrganization {
+    justify-content: center;
+    max-width: 63vw;
+    width: 64vw;
+    flex-grow: 1;
+  }
+
+  .singleOrganization {
+    display: flex;
+    flex-direction: column;
+    width: 67vw;
+  }
+
+  .singleOrganizationContainer {
+    margin-right: 3%;
+  }
+
+  .orgNameAndOptions {
+    margin: auto;
+  }
+
+  .isAdmin {
+    margin: auto;
+  }
+
+  .orgNameAndAdmin {
+    flex-direction: column;
+    margin: auto;
+  }
+
+  .orgPicture {
+    margin: auto;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 950px) {
+  .organizationsInterface {
+    
+  max-width: 95vw;
+  }
+
+  .buttonsOrganization {
+    flex-direction: column;
+    width: 310px;
+    margin: auto;
+    margin-left: 280px;
+  }
+
+  .orgOptions {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px;
+  }
+
+  .singleOption {
+    margin-top: 15px;
+  }
+
+  .projectsOrganization {
+    justify-content: center;
+    max-width: 57vw;
+    flex-grow: 1;
+  }
+
+  .singleOrganization {
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+  }
+
+  .orgNameAndOptions {
+    margin: auto;
+  }
+
+  .orgPicture {
+    margin: auto;
+    margin-top: 20px;
+  }
+
+  .singleOrganizationContainer {
+    margin-right: 3%;
+  }
+
+  .isAdmin {
+    margin: auto;
+  }
+
+  .orgNameAndAdmin {
+    flex-direction: column;
+    margin: auto;
+  }
+
+}
+
+@media screen and (max-width: 1310px) {
+  /*.organizationsInterface {
+    
+    max-width: 100vw;
+  } mesmo que o da pantalla e o scroll*/ 
+
+  .singleOrganizationContainer {
+    flex-direction: column;
+  }
+  
+  .projectsOrganization {
+    width: 300px;
+    margin-left: 40px;
+  }
+
+  .organizationsWrapper {
+    margin-right: 100px;
+    max-width: 890px;
+    flex-grow: 1;
+  }
+
+  .projectsOrganization {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    width: 68vw;
+  }
+
+  .singleProjectOrganization {
+    color: #110030;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-width: 220px;
+    width: 240px;
+  }
+
+}

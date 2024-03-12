@@ -1,0 +1,162 @@
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 230px;
+  background-color: #f1f1f1;
+  height: 100vh;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  cursor: default;
+  margin-top: 102px;
+  overflow: hidden;
+}
+
+.sidebar .sidebarOption {
+  display:flex;
+  flex-direction: row;
+  background-color: #EEFEFD;
+  color: rgb(8, 1, 17);
+  border: solid rgb(218, 218, 218) 1px;
+  height: 70px;
+  align-items: center;
+}
+
+.sidebar .sidebarOption .sidebarSection {
+  display: block;
+  background-color: #EEFEFD;
+  color: rgb(8, 1, 17);
+  padding: 16px;
+  text-decoration: none;
+  white-space: nowrap; /*Evita que el texto aparezca en 2 lineas */
+}
+
+.sidebar .sidebarOption img{
+  padding-left: 6px;
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
+  align-self: center; 
+}
+
+.sidebar .sidebarOption:hover {
+  transform: scale(0.99); /* Escala el botón al 110% durante el hover */
+  transition: transform 0.2s ;
+}
+
+/* Aqui empiezan cosas de mostrar organizaciones */
+
+.sidebarOrg {
+  display:flex;
+  flex-direction: row;
+  background-color: #eee5e5;
+  color: rgb(8, 1, 17);
+  border: solid rgb(218, 218, 218) 1px;
+}
+
+.sidebarSectionOrg {
+  display: block;
+  background-color: #eee5e5;
+  color: rgb(8, 1, 17);
+  padding: 16px;
+  text-decoration: none;
+  white-space: nowrap; /*Evita que el texto aparezca en 2 lineas */
+}
+
+.sidebarOrg img{
+  height: 40px;
+  width: 40px;
+  padding-left: 6px;
+  align-self: center; 
+  border-radius: 50%;
+  min-width: 40px;
+}
+
+.itemList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #eee5e5;
+}
+
+.itemList li {
+  padding: 6px;
+  border-top: 1px solid #ccc;
+  scroll-snap-align: start;
+}
+
+.fill {
+  height: 52px;
+  width: 430px;
+  background-color:rgb(20, 12, 60);
+}
+
+/* Aqui empiezan cosas de mostrar proyectos */
+
+.sidebarPro {
+  display:flex;
+  flex-direction: row;
+  background-color: #eee5e5;
+  color: rgb(8, 1, 17);
+  border: solid rgb(218, 218, 218) 1px;
+  border-left: solid 3px rgb(20, 12, 60);
+  margin-left: 1px;
+}
+
+.sidebarSectionPro {
+  display: block;
+  background-color: #eee5e5;
+  color: rgb(8, 1, 17);
+  padding: 16px;
+  text-decoration: none;
+  white-space: nowrap; /*Evita que el texto aparezca en 2 lineas */
+}
+
+.sidebarPro img{
+  height: 40px;
+  width: 40px;
+  padding-left: 6px;
+  align-self: center; 
+  border-radius: 50%;
+  min-width: 40px;
+}
+
+/* @Media screen */
+
+@media screen and (max-width: 750px) {
+  .sidebar {
+    width: 70px;
+    min-width: 70px;
+    transition: width 0.4s ease;
+  }
+
+  .sidebar .sidebarOption .sidebarSection {
+    opacity: 0; /* Inicialmente transparente */
+    transition: opacity 0.1s ease;
+  }
+
+  .sidebarSectionOrg {
+    opacity: 0; /* Inicialmente transparente */
+    transition: opacity 0.1s ease;
+  }
+
+  .sidebarSectionPro {
+    opacity: 0; /* Inicialmente transparente */
+    transition: opacity 0.1s ease;
+  }
+
+}
+
+@media screen and (min-width: 750px) {
+  .sidebar {
+    width: 230px;
+    transition: width 0.4s ease;
+  }
+
+  .fill {
+    width: 430px;
+    transition: width 0.1s ease;
+    min-width: 430px;
+    opacity: 1; /* Inicialmente transparente */
+    transition: opacity 0.1s ease;
+  }
+
+}

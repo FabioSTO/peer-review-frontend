@@ -1,0 +1,124 @@
+.Tutoriales .tuto-container {
+  display:flex;
+  margin: 5%;
+  max-width: 100%;
+  justify-content: center;
+  overflow-x:auto;
+  cursor: grab;      /*cambia cursor a agarre*/
+  user-select: none; /*no agarra texto*/
+  scrollbar-width: none;
+  transition: 10s;
+  scroll-behavior:smooth;
+  text-align:center;
+}
+
+@media screen and (max-width: 1050px) {
+  .Tutoriales .tuto-container {
+    flex-direction: column; /* Cambia la dirección del flex a columna */
+    align-items: center;
+  }
+  .tuto {
+    min-width: 60%;
+  }
+}
+
+.Tutoriales img {
+  height:150px;
+  width:auto;
+  margin: 3%;
+  border-radius: 100%;
+}
+
+.TutoText {
+  color:antiquewhite;
+  text-align:left;
+}
+
+.TutoTextTitle {
+  color: antiquewhite;
+  text-align:center;
+}
+
+.tuto {
+  border: solid 5px rgb(20, 12, 60);
+  border-radius: 20px;
+  max-width: 100%;
+  width: 33%;
+  margin: 2%;
+  padding: 15px;
+}
+
+.register {
+  margin-top: 50px;
+  display:flex;
+  justify-content: center;
+}
+
+.botonRegister {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  /*background: #111;*/
+  background:#110030;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.botonRegister:before {
+  content: "";
+  background: linear-gradient(
+    45deg,/*
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,*/
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.botonRegister:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /*background: #222;*/
+  background:#110030;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}

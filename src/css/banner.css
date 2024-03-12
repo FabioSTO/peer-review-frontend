@@ -1,0 +1,51 @@
+.banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-color:rgb(20, 12, 60);
+  color:aliceblue;
+  font-size: 30px;
+  text-shadow: 1px 3px black;
+  padding-bottom: 20px;
+  /*border-bottom: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 1px;*/
+  box-shadow: 5px;
+  width: 100vw;
+}
+
+.capiLogo {
+  margin-left: 1%;
+  height: 80px;
+  width: 80px;
+  margin-top: 1dvb;
+  margin-bottom: auto;
+  border-radius: 50%;
+  border: 2px solid ;
+  border-color: rgb(20, 12, 60);
+}
+
+.title {
+  margin: auto;
+  margin-left: 1%;
+  margin-top: 35px;
+}
+
+.username {
+  font-size: 30px;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.userLogo { 
+  margin-right: 3%;
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 60px;
+  width: 60px;
+  border-radius: 100px;
+  cursor: pointer;
+  border: 3px solid;
+}
