@@ -1,0 +1,187 @@
+.loginNRegisterContainer {
+  display: flex;
+  flex-direction: column;
+  border: solid 5px rgb(20, 12, 60);
+  border-radius: 20px;
+  width: 60%;
+  min-width: 60%;
+  margin: auto;
+  justify-content: center;
+  text-align:center;
+  margin-top: 4vh;
+  margin-bottom: 3vh;
+  padding-bottom: 20px ;
+}
+
+.error-message {
+  color: red;
+}
+
+.loginSection.opacityEffect {
+  opacity: 0.15;
+  transition: opacity 0.1s;
+}
+
+.botonRegister.opacityEffect {
+  opacity: 0.5;
+  transition: opacity 0.1s;
+  color: rgb(148, 148, 138);
+  
+}
+
+#loginFormReg {
+  margin-left: 50%;
+}
+
+.registerSection {
+  display: flex;
+  flex-direction: row;
+  margin-top: 60px;
+  margin-left: 50px;
+  margin-right: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  margin: auto;
+}
+
+.loginTitle {
+  color:aliceblue;
+}
+
+.registerTitle {
+  color:aliceblue;
+  margin-right: 10px;
+}
+
+.inputForm {
+  margin: 10px;
+  padding: 5px;
+  border: solid 2px rgb(7, 46, 48);
+  border-radius: 5px;
+  font-size:medium;
+  padding: 10px;
+}
+
+.inputForm:focus, .inputForm:hover {
+  outline: none;
+  border: solid 2px rgb(15, 158, 163);
+}
+
+#formButton {
+  margin: 10px;
+  max-height: 40px;
+  max-width: 250px;
+}
+
+#formButtonC {
+  margin: 10px;
+  max-height: 40px;
+  max-width: 250px;
+  margin:auto;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+}
+
+#registerForm {
+  width: auto;
+}
+
+.nameNTagsInput {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#registerForm {
+  margin: auto;
+}
+
+#tagsListInput {
+  margin-right: auto;
+  margin-left: 30px;
+}
+
+#tagsDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.tagsEnteredList {
+  display: flex;
+  flex-direction: row;
+  border: solid 2px rgb(19, 36, 68);
+  border-radius: 5px;
+  color: aliceblue;
+  list-style-type:none;
+  padding: 0;
+  max-width: 300px;
+  flex-wrap: wrap;
+  margin-top: 0;
+  
+}
+
+.tagsEntered {
+  border: solid 2px rgb(51, 87, 153);
+  border-radius: 5px;
+  margin: 3px;
+  padding: 3px;
+}
+
+#usernameInput {
+  max-height: 20px;
+}
+
+@media screen and (max-width: 1050px) {
+  .registerSection {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  .nameNTagsInput {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  #tagsListInput {
+    margin: auto;
+  }
+  
+  
+  .tagsEnteredList {
+    margin: auto;
+    margin-top: 15px;
+  }
+}
+  @media screen and (max-width: 1230px) and (min-width: 1050px) {
+
+  .nameNTagsInput {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-left: 15px;
+  }
+
+  #tagsListInput {
+    margin: auto;
+  }
+  
+  
+  .tagsEnteredList {
+    margin: auto;
+    margin-top: 15px;
+  }
+
+  #tagsDiv {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
