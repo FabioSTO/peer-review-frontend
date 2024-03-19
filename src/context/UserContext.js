@@ -7,17 +7,16 @@ import { createContext, useContext, useState } from "react";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [id, setId] = useState('');
+  const [userID, setUserID] = useState('');
   const [username, setUsername] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userTags, setUserTags] = useState([]);
   const [isLogged, setIsLogged] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState('');
-  const [voted, setVoted] = useState(false);
 
   return (
-    <UserContext.Provider value={{ id, setId, username, setUsername, isLogged, setIsLogged, 
-    profilePic, setProfilePic, email, setEmail, submitted, setSubmitted, voted, setVoted}}>
+    <UserContext.Provider value={{ userID, setUserID, username, setUsername, userEmail, setUserEmail,
+      userTags, setUserTags, isLogged, setIsLogged, profilePic, setProfilePic}}>
       {children}
     </UserContext.Provider>
   )

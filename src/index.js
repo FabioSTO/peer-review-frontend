@@ -8,18 +8,24 @@ import Homepage from './pages/HomePage';
 import Loginpage from './pages/LoginPage';
 import YourCapeerPage from './pages/YourCapeerPage';
 import { MenuProvider } from './context/MenuContext';
+import { UserProvider } from './context/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <MenuProvider>
-    <Router>
-      <Routes>
-        <Route path='/homepage' element={<Homepage/>} />
-        <Route path='/login' element={<Loginpage/>} />
-        <Route path='/yourcapeer' element={<YourCapeerPage/>} />
-      </Routes>
-    </Router>
-  </MenuProvider>
+  <React.StrictMode>
+    <MenuProvider>
+      <UserProvider>
+        <Router>
+          <Routes>
+            <Route path='/homepage' element={<Homepage/>} />
+            <Route path='/login' element={<Loginpage/>} />
+            <Route path='/yourcapeer' element={<YourCapeerPage/>} />
+          </Routes>
+        </Router>
+      </UserProvider>
+    </MenuProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

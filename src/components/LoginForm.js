@@ -1,26 +1,51 @@
 import '../css/loginform.css';
 import { useState } from 'react';
 import RegisterForm from '../components/RegisterForm';
+import { useUserContext } from '../context/UserContext';
+import loginAccount from '../hooks/loginAccount';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
-  const [username, setUsername] = useState('');
-  const [email, setEmailReg] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userTags, setUserTags] = useState('');
   const [showRegister, setShowRegister] = useState(false);
+  const [error, setError] = useState(null);
+
+  const { setUserID, setUsername, setUserEmail, setUserTags} = useUserContext();
+
+  const navigate = useNavigate();
+
+  const handleLoginAccount = async (e) => {
+    e.preventDefault();
+    try {
+      const loginResult = await loginAccount(email, password);
+      if (loginResult.userID) {
+
+        setUserID(loginResult.userID);
+        setUserEmail(loginResult.email);
+        setUsername(loginResult.username);
+        setUserTags(loginResult.userTags);
+        
+        navigate('/yourcapeer');
+      
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  }
 
   const handleShowRegister = (e) => {
     e.preventDefault();
     setShowRegister(!showRegister);
-
   }
 
   return (
     <div className='loginNRegisterContainer'>
       <div className={`loginSection ${showRegister ? 'opacityEffect' : ''}`}>
         <h1 className='loginTitle'>INICIAR SESIÓN</h1>
-        <form className='form' id='loginForm'>
-          <input type='text' placeholder='Email' className='inputForm' value={email} onChange={e => setEmailReg(e.target.value)} required/>
+        {error && <div className="error-message" > {error} </div>}
+        <form className='form' id='loginForm' onSubmit={handleLoginAccount}>
+          <input type='email' placeholder='Email' className='inputForm' value={email} onChange={e => setEmail(e.target.value)} required/>
           <input type='password' placeholder='Password' className='inputForm' value={password} onChange={e => setPassword(e.target.value)} required/>
           <button className='botonRegister' id='formButton'>LOGIN</button>
         </form>

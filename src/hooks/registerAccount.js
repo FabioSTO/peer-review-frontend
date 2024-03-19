@@ -15,8 +15,9 @@ const registerAccount = async (name, email, password, tags) => {
     })
 
     if (response.ok) {
-      const result = await response.text();
-      console.log(result);
+      const result = await response.json();
+      const userID = result.userID;
+      return userID;
     } else if (response.status === 500) { 
       const errorMessage = await response.json()
       if (errorMessage.message === "ER_DUP_ENTRY") {

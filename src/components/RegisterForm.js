@@ -1,6 +1,8 @@
 import '../css/loginform.css';
 import { useState } from 'react';
 import registerAccount from '../hooks/registerAccount';
+import { useNavigate } from 'react-router-dom'; 
+import { useUserContext } from '../context/UserContext';
 
 function RegisterForm() {
   const [name, setName] = useState('');
@@ -13,10 +15,24 @@ function RegisterForm() {
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(null);
 
+  const { setUserID, setUsername, setUserEmail, setUserTags} = useUserContext();
+
+  const navigate = useNavigate();
+
   const handleRegisterAccount = async (e) => {
     e.preventDefault();
     try {
-      await registerAccount(name, email, password, tags);
+      const userID = await registerAccount(name, email, password, tags);
+      if (userID) {
+
+        setUserID(userID);
+        setUserEmail(email);
+        setUsername(name);
+        setUserTags(tags);
+        
+        navigate('/yourcapeer');
+      
+      }
     } catch (error) {
       setError(error.message);
     } 
@@ -45,6 +61,13 @@ function RegisterForm() {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
+  const handleAddTagPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
       const newTag = e.target.value;
       setTags([...tags, newTag]);
     }
@@ -56,7 +79,7 @@ function RegisterForm() {
 
     {!showNameNTags &&
     <form className='form' id='loginFormReg' onSubmit={handleShowNameNTags}>
-      <input type='text' placeholder='Email' className='inputForm' value={email} onChange={e => setEmail(e.target.value)} required/>
+      <input type='email' placeholder='Email' className='inputForm' value={email} onChange={e => setEmail(e.target.value)} required/>
       <input type='password' placeholder='Password' className='inputForm' value={password} onChange={e => setPassword(e.target.value)} required/>
       <input type='password' placeholder='Repeat password' className='inputForm' value={rePassword} onChange={e => setRePassword(e.target.value)} required/>
       <button className='botonRegister' id='formButton'>CONTINUAR</button>
@@ -65,9 +88,9 @@ function RegisterForm() {
     {showNameNTags && 
       <form className='form' id='registerForm' onSubmit={handleRegisterAccount}>
         <div className='nameNTagsInput'>
-          <input type='text' placeholder='Name' className='inputForm' id='usernameInput' value={name} onChange={e => setName(e.target.value)} required/>
+          <input type='text' placeholder='Name' className='inputForm' id='usernameInput' value={name} onChange={e => setName(e.target.value)} onKeyDown={handleKeyPress} required/>
           <div id='tagsDiv'>
-            <input className='inputForm' id="tagsListInput" list="tags" placeholder='Tags' value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyPress}/>
+            <input className='inputForm' id="tagsListInput" list="tags" placeholder='Tags' value={inputValue} onChange={handleInputChange} onKeyDown={handleAddTagPress}/>
             <datalist id="tags">
               <option value="#JavaScript"/>
               <option value="#Java"/>

@@ -35,8 +35,9 @@
 .username {
   font-size: 30px;
   margin-left: auto;
-  margin-top: auto;
+  margin-top: 35px;
   margin-bottom: auto;
+  margin-right: 20px;
 }
 
 .userLogo { 
@@ -49,3 +50,4 @@
   cursor: pointer;
   border: 3px solid;
 }
+
