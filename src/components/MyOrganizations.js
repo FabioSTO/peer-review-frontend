@@ -12,6 +12,7 @@ import logoPro3 from '../img/paraprobar/Mono.jpg';
 import logoPro4 from '../img/paraprobar/aroFuego.jpg';
 import eyeIcon from '../img/eyeIconGray.png';
 import handshakeIcon from '../img/handshake.png';
+import { useUserContext } from '../context/UserContext';
 import OverlayAddOrg from './OverlayAddOrg';
 
 function MyOrganizations() {

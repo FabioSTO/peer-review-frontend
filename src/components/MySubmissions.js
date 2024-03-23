@@ -4,6 +4,7 @@ import '../css/mysubmissions.css';
 import fondoProyecto1 from '../img/fondoProyecto1.jpeg';
 import fondoProyecto2 from '../img/fondoProyecto2.jpeg';
 import fondoProyecto3 from '../img/fondoProyecto3.jpeg';
+import { useUserContext } from '../context/UserContext';
 
 function MySubmissions() {
   // Estado para controlar los elementos pulsados

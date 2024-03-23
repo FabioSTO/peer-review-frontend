@@ -4,12 +4,13 @@ import Sidebar from '../components/Sidebar';
 import TopMenu from '../components/TopMenu';
 import MyReviews from '../components/MyReviews';
 import MySubmissions from '../components/MySubmissions';
+import ProfileSidebar from '../components/ProfileSidebar';
 import { useMenuContext } from '../context/MenuContext'; 
 import MyOrganizations from '../components/MyOrganizations';
 
 function YourCapeerPage() {
 
-  const { selectedTopMenu } = useMenuContext();
+  const { selectedTopMenu, profileSidebarVisible } = useMenuContext();
 
   let interfaceComponent;
 
@@ -30,10 +31,11 @@ function YourCapeerPage() {
       <div className="mainInterface">
         <div className='fixid'><Sidebar /></div>
         <div className='subMainInterface'>
-          <div className='fixi'><TopMenu /></div>
+          <div className='fixid'><TopMenu /></div>
           { interfaceComponent }
         </div>
       </div>
+      {profileSidebarVisible && <div className='fixid'><ProfileSidebar /></div>}
     </div>
   );
 }

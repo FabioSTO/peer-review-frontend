@@ -5,10 +5,12 @@ import { createContext, useContext, useState } from "react";
 const MenuContext = createContext();
 
 export const MenuProvider = ({children}) => {
-  const [selectedTopMenu, setTopSelectedMenu] = useState(null)
+  const [selectedTopMenu, setTopSelectedMenu] = useState(null);
+  const [profileSidebarVisible, setProfileSidebarVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   return (
-    <MenuContext.Provider value={{ selectedTopMenu, setTopSelectedMenu }}>
+    <MenuContext.Provider value={{ selectedTopMenu, setTopSelectedMenu , profileSidebarVisible, setProfileSidebarVisible, errorMessage, setErrorMessage}}>
       {children}
     </MenuContext.Provider>
   )

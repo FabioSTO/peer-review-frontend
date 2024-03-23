@@ -9,6 +9,7 @@ import Loginpage from './pages/LoginPage';
 import YourCapeerPage from './pages/YourCapeerPage';
 import { MenuProvider } from './context/MenuContext';
 import { UserProvider } from './context/UserContext';
+import GitHubCallbackPage from './pages/GitHubCallbackPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,12 +21,12 @@ root.render(
             <Route path='/homepage' element={<Homepage/>} />
             <Route path='/login' element={<Loginpage/>} />
             <Route path='/yourcapeer' element={<YourCapeerPage/>} />
+            <Route path="/github-callback" element={<GitHubCallbackPage/>} />
           </Routes>
         </Router>
       </UserProvider>
     </MenuProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
