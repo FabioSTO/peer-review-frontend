@@ -6,13 +6,18 @@
   top: 0;
   border-right: solid 0.5px black;
   border-radius: 15px 0 0 15px;
-  right: 0; /* Pega la barra lateral a la derecha */
-  height: 100vh; /* Ocupa toda la altura de la ventana */
-  width: 250px; /* Ancho de la barra lateral */
-  z-index: 999; /* Asegura que esté encima de otros elementos */
-  display: flex; /* Usa flexbox */
-  flex-direction: column; /* Apila los elementos verticalmente */
-  align-items: center; /* Centra horizontalmente */
+  right: -250px; 
+  height: 100vh; 
+  width: 250px; 
+  z-index: 999;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  transition: right 0.2s ease-out;
+}
+
+.profileSidebar.show {
+  right: 0px;
 }
 
 .profileSidebar #errorText {

@@ -3,14 +3,30 @@ import capiLogo from '../img/capiLogo.jpeg'
 import '../css/banner.css'
 import { useUserContext } from '../context/UserContext';
 import { useMenuContext } from '../context/MenuContext';
+import { getMemberData } from '../hooks/getMemberData';
+import { useEffect, useState } from 'react';
 
 function Banner() {
   const { profileSidebarVisible, setProfileSidebarVisible } = useMenuContext();
-  const { username, userEmail, userTags } = useUserContext();
+  const { username, userID, userEmail, userTags, setMemberAccounts } = useUserContext();
+  const [transitionSidebar, setTransitionSidebar] = useState(false)
 
   const toggleSidebar = () => {
+    setTransitionSidebar(true);
     setProfileSidebarVisible(!profileSidebarVisible);
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getMemberData(userID);
+        setMemberAccounts(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+    fetchData();
+  }, [userID]);
 
   return (
     <div className="banner"> 

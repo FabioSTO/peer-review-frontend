@@ -5,8 +5,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
-
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .overlay-content {
@@ -14,14 +13,54 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: rgb(12, 2, 50);
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  width: 40vw;
-  height: 30vw;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  width: 50vw;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
 }
 
-#closeOverlayButton {
+.overlay-content #closeOverlayButton {
+  align-self:flex-end;
+}
+
+.overlay-content #title {
+  text-align: center;
+}
+
+.overlay-content #form {
+  border: solid 1px rgb(0, 0, 0);
+  border-radius: 5px;
+  height: 100%;
+  padding-left: 10px;
+}
+
+.overlay-content #description {
+  margin: auto;
+  width:97%;
+  height: 130px;
+  resize:none;
+  box-sizing: border-box;
+}
+
+.overlay-content #select {
+  margin: auto;
   margin-top: 10px;
 }
+
+.overlay-content #option {
+  font-weight: bolder;
+}
+
+
+.overlay-content #name {
+  margin: auto;
+}
+
+.overlay-content #createButton {
+  margin-top: 25px;
+}
+

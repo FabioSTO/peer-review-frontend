@@ -35,7 +35,7 @@ export const UserProvider = ({ children }) => {
     if (storedProfilePic) setProfilePic(storedProfilePic);
 
     const storedMemberAccounts = localStorage.getItem('memberAccounts');
-    if (storedMemberAccounts) setProfilePic(storedMemberAccounts);
+    if (storedMemberAccounts) setMemberAccounts(storedMemberAccounts);
 
   }, []);
 
@@ -47,7 +47,7 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem('userTags', userTags);
     localStorage.setItem('isLogged', isLogged);
     localStorage.setItem('profilePic', profilePic);
-    localStorage.setItem('memberAccounts',memberAccounts);
+    localStorage.setItem('memberAccounts', memberAccounts);
   }, [userID, username, userEmail, userTags, isLogged, profilePic, memberAccounts]);
 
   return (

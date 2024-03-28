@@ -9,18 +9,11 @@ function ProfileSidebar() {
   const client_id = process.env.REACT_APP_CLIENT_ID;
   const { username, userID, userEmail, userTags, memberAccounts, setMemberAccounts } = useUserContext();
   const { profileSidebarVisible, setProfileSidebarVisible, errorMessage } = useMenuContext();
+  const [transitionSidebar, setTransitionSidebar] = useState(false)
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getMemberData(userID);
-        setMemberAccounts(data);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
-    fetchData();
-  }, []);
+    setTransitionSidebar(true);
+  });
   
   const handleCloseSidebar = () => {
     setProfileSidebarVisible(false)
@@ -29,7 +22,7 @@ function ProfileSidebar() {
   const loginUrl = `https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}`;
 
   return (
-    <div className='profileSidebar'>
+    <div className={`profileSidebar ${transitionSidebar ? 'show' : ''}`}>
       <div className='profileSidebarPicNameClose'>
         <img className='userLogo' id='logo' src={anonymous} alt='Foto de perfil sin registrarse'/>
         <h4 id='username'>{username}</h4>
