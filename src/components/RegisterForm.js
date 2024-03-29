@@ -54,7 +54,7 @@ function RegisterForm() {
     // Agrega un "#" al inicio
     if (value && value.charAt(0) !== '#') {
       value = '#' + value;
-    }
+    } 
 
     setInputValue(value);
   };
@@ -69,6 +69,7 @@ function RegisterForm() {
     if (e.key === 'Enter') {
       e.preventDefault();
       const newTag = e.target.value;
+      setInputValue("")
       setTags([...tags, newTag]);
     }
   };

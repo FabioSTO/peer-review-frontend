@@ -1,6 +1,6 @@
 import { apiUrl } from "../development";
 
-const endpointUrl = apiUrl + "/users/githubAddAccount"; // http://localhost:3001/users/githubAddAccount
+const endpointUrl = apiUrl + "/users/gitmembers"; // http://localhost:3001/users/gitmembers
 
 
 const githubAddAccount = async (code, userID) => {

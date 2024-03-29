@@ -31,7 +31,7 @@ function ProfileSidebar() {
       <hr className="separator" />
       <h4 className='linkedGitHubAccounts'>Linked GitHub accounts</h4>
       <ul className='gitAccountList'>
-        {memberAccounts.map((memberAccount, index) => ( <li key={index} id='gitAccount'>{memberAccount.member_account}</li>))}
+        {memberAccounts !== null && memberAccounts.map((memberAccount, index) => ( <li key={index} id='gitAccount'>{memberAccount.member_account}</li>))}
       </ul>
       {errorMessage && <div className="error-message" id='errorText'>{errorMessage}</div>}
       <a href={loginUrl} className='addGitHubButton'>Add GitHub account</a>

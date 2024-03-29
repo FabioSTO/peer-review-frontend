@@ -63,9 +63,9 @@
 }
 
 .separator {
-  border: none; /* Elimina el borde predeterminado */
-  height: 1px; /* Grosor de la línea */
-  background-color: rgb(0, 0, 0); /* Color de la línea */
+  border: none; 
+  height: 1px; 
+  background-color: rgb(0, 0, 0);
   margin: 10px 0;
   width: 90%;
 }

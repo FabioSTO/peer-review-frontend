@@ -10,6 +10,7 @@
 
 .overlay-content {
   position: absolute;
+  color: aliceblue;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -64,3 +65,42 @@
   margin-top: 25px;
 }
 
+.invitationsOverlay {
+  border: solid 1px rgb(0, 0, 0);
+  border-radius: 5px;
+  height: 100%;
+}
+
+.invitationsOverlay #invitationsContent{
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(20, 12, 60);
+  line-height: 25px;
+  width: fit-content ;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  color: rgb(244, 141, 57);
+  margin: auto;
+  margin-top: 20px;
+}
+
+.invitationsOverlay #check{
+  color: greenyellow;
+  margin-right: 80px;
+  background-color: rgb(15, 8, 45);
+  border-radius: 5px;
+}
+
+.invitationsOverlay #cross{
+  background-color: rgb(15, 8, 45);
+  border-radius: 5px;
+}
+
+.invitationsOverlay .checkCross{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: auto;
+  cursor: pointer;
+}

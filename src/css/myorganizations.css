@@ -55,6 +55,7 @@
   background-color: rgb(26, 15, 83);
   border: 1px solid rgb(1, 0, 6);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+  max-width: 650px;
 }
 
 .projectsOrganizationRight {
@@ -68,6 +69,66 @@
   background-color: rgb(26, 15, 83);
   border: 1px solid rgb(1, 0, 6);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.infoContainer {
+  color: aliceblue;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.infoContainerBelow {
+  color: aliceblue;
+  width: 350px;
+}
+
+.infoContainerBelow #field {
+  background-color: rgb(20, 12, 60);
+  border-radius: 10px;
+  margin: auto;
+  text-align: center;
+  line-height: 30px;
+  margin-bottom: 15px;
+  width: 90%;
+}
+
+.infoContainerBelow #fieldTitle {
+  width: 90%;
+  margin: auto;
+  line-height: 30px;
+  margin-bottom: 3px;
+  
+}
+
+.infoContainer #field {
+  background-color: rgb(20, 12, 60);
+  border-radius: 10px;
+  margin: auto;
+  text-align: center;
+  line-height: 30px;
+  margin-bottom: 15px;
+  width: 90%;
+}
+
+.infoContainer #fieldTitle {
+  color: #d3d2d2;
+  width: 90%;
+  margin: auto;
+  line-height: 30px;
+  margin-bottom: 3px;
+  
+}
+
+.invitationsNotice {
+  margin-top: auto;
+  background-color: rgb(20, 12, 60);
+  line-height: 25px;
+  width: fit-content;
+  border-radius: 10px;
+  color: rgb(244, 141, 57);
+  margin-left: 270px;
+  cursor: pointer;
 }
 
 .showBorder {

@@ -1,6 +1,6 @@
 import { apiUrl } from "../development";
 
-const endpointUrl = apiUrl + "/users/addOrganization"; // http://localhost:3001/users/addOrganization
+const endpointUrl = apiUrl + "/organizations"; // http://localhost:3001/organizations
 
 export async function addOrganization(orgName, orgDesc, memberAccount) {
   try {
@@ -16,11 +16,12 @@ export async function addOrganization(orgName, orgDesc, memberAccount) {
       const result = await response.json();
       return result;
     } else {
-      throw new Error('Error al crear la nueva organización: ' + response.statusText);   
+      const error = await response.json();
+      throw new Error('Error al crear la nueva organización: ' + error.message);   
     }
 
   } catch (error) {
-    console.error('Error en la solicitud', error)
+    console.error('Error en la solicitud', error.message)
     throw error;
   }
 }

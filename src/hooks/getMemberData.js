@@ -1,9 +1,9 @@
 import { apiUrl } from "../development";
 
-const endpointUrl = apiUrl + "/users/gitMemberData"; // http://localhost:3001/users/gitMemberEntries
+const endpointUrl = apiUrl + "/users"; // http://localhost:3001/users/{userID}/gitmembers
 
 export async function getMemberData(userID) {
-  let requestUrl = endpointUrl + "/" + userID
+  let requestUrl = `${endpointUrl}/${userID}/gitmembers`;
   try {
     const response = await fetch(requestUrl);
     if (response.ok) {
