@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
-import { addOrganization } from '../hooks/addOrganization';
+import { addProject } from '../hooks/addProject';
 import { useUserContext } from '../context/UserContext';
 
-const Overlay = ({setShowProOverlay}) => {
+const Overlay = ({setShowProOverlay, orgMembers, orgName}) => {
   const [error, setError] = useState(null);
   const [proName, setProName] = useState("");
   const [proDesc, setProDesc] = useState("");
@@ -12,11 +12,11 @@ const Overlay = ({setShowProOverlay}) => {
 
   const handleAddProject = async (e) => {
     e.preventDefault();
-    /*try {   TENGO QUE HACERLOOOOOOO
-      await addOrganization(orgName, orgDesc, chosenMemberAccount)
+    try {
+      await addProject(orgName, proName, proDesc, chosenMemberAccount)
     } catch (error) {
       setError(error.message)
-    }*/
+    }
   }
 
   const handleMemberAccountChange = (e) => {
@@ -32,8 +32,8 @@ const Overlay = ({setShowProOverlay}) => {
           <select className='inputForm' id="select" list="memberAccounts" placeholder='Members' onChange={handleMemberAccountChange} required>
           {memberAccounts.length > 0 ? (
             <>
-              <option value="">Choose GitHub account...</option>
-              {memberAccounts.map((memberAccount, index) => (
+              <option value="">Choose an ADMIN for the project </option>
+              {orgMembers.map((memberAccount, index) => (
                 <option key={index} id='option' value={memberAccount.member_account}>{memberAccount.member_account}</option>
               ))}
             </>
@@ -41,9 +41,9 @@ const Overlay = ({setShowProOverlay}) => {
             <option value="" disabled>No GitHub accounts available</option>
           )}
           </select>
-          <h4>Name</h4>  
+          <h4>Project name</h4>  
           <input type='text' placeholder='Name' className='inputForm' id='name' value={proName} onChange={e => setProName(e.target.value)} required/>
-          <h4>Description </h4>
+          <h4>Project description </h4>
           <textarea placeholder='Description' className='inputForm' id='description' value={proDesc} onChange={e => setProDesc(e.target.value)} required/>
           {error && <div className="error-message" id='errorText'>{error}</div>}
           <button className='botonRegister' id='createButton'>Create</button>

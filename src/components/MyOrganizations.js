@@ -19,6 +19,8 @@ import OverlayAddMember from './OverlayAddMember';
 import OverlayInvitations from './OverlayInvitations';
 import { getOrganizations } from '../hooks/getOrganizations';
 import { getInvitations } from '../hooks/getInvitations';
+import { getMembersByOrg } from '../hooks/getMembersByOrg';
+import { getProjectsByOrg } from '../hooks/getProjectsByOrg';
 
 function MyOrganizations() {
 
@@ -31,10 +33,25 @@ function MyOrganizations() {
   const [showProOverlay, setShowProOverlay] = useState(false);
   const [showMemberOverlay, setShowMemberOverlay] = useState(false);
   const [showInvOverlay, setShowInvOverlay] = useState(false);
-  const { userID } = useUserContext();
+  const { userID, memberAccounts } = useUserContext();
   const [organizations, setOrganizations] = useState([]);
   const [invitations, setInvitations] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [projects, setProjects] = useState([]);
 
+  const fondoProyectos = [ // Para poner fondos aleatorios chulos
+    fondoProyecto3,
+    fondoProyecto2,
+    fondoProyecto3,
+    fondoProyecto4
+  ];
+
+  const logoOrgs = [ // Para poner fondos aleatorios chulos
+    fondoProyecto1,
+    fondoProyecto2,
+    fondoProyecto3,
+    logoPro4
+  ];
 
   const handleShowProjects = (orgIndex) => {
     setSelectedOrgIndex(prevIndex => {
@@ -93,6 +110,24 @@ function MyOrganizations() {
         const organizations = await getOrganizations(userID);
         if (organizations) {
           setOrganizations(organizations);
+          const promises = organizations.map(async (organization) => {
+            const members = await getMembersByOrg(organization.orgname); // Obtener los miembros de la organización
+            const projects = await getProjectsByOrg(organization.orgname); // Obtener los proyectos de la organización
+            const membersWithOrgName = members.map(member => ({ ...member, orgname: organization.orgname }));
+            return { members: membersWithOrgName, projects: projects };
+          });
+        
+          Promise.all(promises)
+          .then((data) => {
+            const allMembers = data.flatMap(item => item.members); // Combino el array de arrays
+            setMembers(allMembers);
+            const allProjects = data.flatMap(item => item.projects); // Combino el array de arrays de proyectos
+            console.log(allProjects)
+            setProjects(allProjects);
+          })
+          .catch((error) => {
+            console.error('Error al obtener miembros:', error);
+          });
         }
         const invitations = await getInvitations(userID);
         if (invitations) {
@@ -147,13 +182,13 @@ function MyOrganizations() {
         <div className='organizationsWrapper'>
         {invitations && <h5 className='invitationsNotice' onClick={() => setShowInvOverlay(true)}>Tienes {invitations.length} invitaciones de organizaciones.</h5>}
         {showOrgOverlay && <OverlayAddOrg setShowOrgOverlay={setShowOrgOverlay}/>}
-        {showProOverlay && <OverlayAddPro setShowProOverlay={setShowProOverlay}/>}
+        {showProOverlay && <OverlayAddPro setShowProOverlay={setShowProOverlay} orgMembers={members.filter(member => member.orgname === organizations[selectedOrgIndex].orgname && (member.is_admin || member.is_owner))} orgName={organizations[selectedOrgIndex].orgname}/>}
         {showMemberOverlay && <OverlayAddMember orgName={organizations[selectedOrgIndex].orgname} setShowMemberOverlay={setShowMemberOverlay}/>}
         {showInvOverlay && <OverlayInvitations invitations={invitations} setShowInvOverlay={setShowInvOverlay}/>}
           {organizations.map((organization, orgIndex) => (
             <div className='singleOrganizationContainer' key={orgIndex}>
               <div className={`singleOrganization ${(selectedOrgIndex === orgIndex) ? 'showBorder' : ''}`}>
-                <img className='orgPicture' src={logoOrg1}/>
+                <img className='orgPicture' src={logoOrgs[orgIndex % logoOrgs.length]}/>
                 <div className='orgNameAndOptions'>
                   <div className='orgNameAndAdmin'>
                     <h1 className='orgName'>{organization.orgname}</h1>
@@ -190,13 +225,40 @@ function MyOrganizations() {
               }
               {(!showBelow && showProjects && selectedOrgIndex === orgIndex) && 
                 <div className={`projectsOrganization ${!showBelow ? 'showBorder' : ''}`}>
-                  <h3 className='botonRegister' onClick={() => setShowProOverlay(true)}>
-                    + ADD PROJECT
-                  </h3>
+                  {projects.map((project, proIndex) => (
+                    memberAccounts.some(member => member.member_account === project.member_account) && project.orgname === organization.orgname && (
+                  <div key={proIndex} className='singleProjectOrganization'>
+                    <div className='backgroundSpace' style={{ backgroundImage: `url(${fondoProyectos[proIndex % fondoProyectos.length]})`, borderRadius: '10px 10px 0 0' }}></div>
+                    <h2 className='projectNameBack'>{project.proname}</h2>
+                  </div>
+                    )
+                  ))}
+                  {organization.is_admin || organization.is_owner ?  
+                    <h3 className='botonRegister' onClick={() => setShowProOverlay(true)}>
+                      + ADD PROJECT
+                    </h3>
+                    : <h4 className='orgName' style={{ color: 'orange'}}>No tienes permisos para añadir proyectos.</h4>
+                  }
                 </div>
               }
               {(!showBelow && showMembers && selectedOrgIndex === orgIndex) && 
                 <div className={`projectsOrganization ${!showBelow ? 'showBorder' : ''}`}>
+                  <div className='membersContainer'>
+                    <div className='singleMemberContainerTitle'>
+                      <h4 id='memberElement'>Member</h4>
+                      <h4 id='memberElement'>Join date</h4>
+                      <h5 id='memberElement'>Role</h5>
+                    </div>
+                    {members.map((member, memberIndex) => (
+                      member.orgname === organization.orgname && (
+                        <div key={memberIndex} className='singleMemberContainer'>
+                          <h4 id='memberElementName'>{member.member_account}</h4>
+                          <h4 id='memberElementDate'>{member.join_date}</h4>
+                          <h5 id='memberElementRole'>{member.is_owner ? "OWNER" : member.is_admin ? "ADMIN" : member.is_super_reviewer ? "SUPER REVIEWER" : "MEMBER"}</h5>
+                        </div>
+                      )
+                    ))}
+                  </div>
                   <h3 className='botonRegister' onClick={() => setShowMemberOverlay(true)}>
                     + INVITE MEMBER
                   </h3>
@@ -207,25 +269,52 @@ function MyOrganizations() {
         </div>
       {(showBelow && showInfo && selectedOrgIndex !== null) && 
         <div className={`projectsOrganizationRight ${showBelow ? 'showBorder' : ''}`}>
-          { <div className='infoContainerBelow'>
-          <h4 id='fieldTitle'>Descripción:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_desc}</h4>
-          <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_creation_date}</h4>
-          <h4 id='fieldTitle'>Cuenta vinculada:</h4> <h4 id='field'>{organizations[selectedOrgIndex].member_account}</h4>
-          <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{organizations[selectedOrgIndex].join_date}</h4>
-          <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organizations[selectedOrgIndex].is_active}</h4>
+          {<div className='infoContainerBelow'>
+            <h4 id='fieldTitle'>Descripción:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_desc}</h4>
+            <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_creation_date}</h4>
+            <h4 id='fieldTitle'>Cuenta vinculada:</h4> <h4 id='field'>{organizations[selectedOrgIndex].member_account}</h4>
+            <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{organizations[selectedOrgIndex].join_date}</h4>
+            <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organizations[selectedOrgIndex].is_active}</h4>
           </div>}
         </div>
       }
       {(showBelow && showProjects && selectedOrgIndex !== null) && 
         <div className={`projectsOrganizationRight ${!showBelow ? 'showBorder' : ''}`}>
-          <h3 className='botonRegister' onClick={() => setShowProOverlay(true)}>
-            + ADD PROJECT
-          </h3>
+          {projects.map((project, proIndex) => (
+            memberAccounts.some(member => member.member_account === project.member_account) && project.orgname === organizations[selectedOrgIndex].orgname && (
+              <div key={proIndex} className='singleProjectOrganization'>
+                <div className='backgroundSpace' style={{ backgroundImage: `url(${fondoProyectos[proIndex % fondoProyectos.length]})`, borderRadius: '10px 10px 0 0' }}></div>
+                <h2 className='projectNameBack'>{project.proname}</h2>
+              </div>
+            )
+          ))}
+          {organizations[selectedOrgIndex].is_admin || organizations[selectedOrgIndex].is_owner ?  
+            <h3 className='botonRegister' id='botonRegisterRight' onClick={() => setShowProOverlay(true)}>
+              + ADD PROJECT
+            </h3>
+            : <h4 className='orgName' style={{ color: 'orange'}}>No tienes permisos para añadir proyectos.</h4>
+          }
         </div>
       }
       {(showBelow && showMembers && selectedOrgIndex !== null) && 
         <div className={`projectsOrganizationRight ${!showBelow ? 'showBorder' : ''}`}>
-          <h3 className='botonRegister' onClick={() => setShowMemberOverlay(true)}>
+          <div className='membersContainer'>
+              <div className='singleMemberContainerTitle'>
+                <h4 id='memberElement'>Member</h4>
+                <h4 id='memberElement'>Join date</h4>
+                <h5 id='memberElement'>Role</h5>
+              </div>
+              {members.map((member, memberIndex) => (
+                member.orgname === organizations[selectedOrgIndex].orgname && (
+                  <div key={memberIndex} className='singleMemberContainer'>
+                    <h4 id='memberElementName'>{member.member_account}</h4>
+                    <h4 id='memberElementDate'>{member.join_date}</h4>
+                    <h5 id='memberElementRole'>{member.is_owner ? "OWNER" : member.is_admin ? "ADMIN" : member.is_super_reviewer ? "SUPER REVIEWER" : "MEMBER"}</h5>
+                  </div>
+                )
+              ))}
+            </div>
+          <h3 className='botonRegister' id='botonRegisterRightInv' onClick={() => setShowMemberOverlay(true)}>
             + INVITE MEMBER
           </h3>
         </div>
