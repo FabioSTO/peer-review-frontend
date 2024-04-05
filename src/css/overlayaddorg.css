@@ -39,6 +39,12 @@
   padding-left: 10px;
 }
 
+.overlay-content #add {
+  margin-right: 20px;
+  background-color: rgb(15, 8, 45);
+  border-radius: 5px;
+}
+
 .overlay-content #description {
   margin: auto;
   width:97%;

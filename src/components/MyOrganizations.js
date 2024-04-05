@@ -13,6 +13,7 @@ import logoPro4 from '../img/paraprobar/aroFuego.jpg';
 import eyeIcon from '../img/eyeIconGray.png';
 import handshakeIcon from '../img/handshake.png';
 import { useUserContext } from '../context/UserContext';
+import { useMenuContext } from '../context/MenuContext';
 import OverlayAddOrg from './OverlayAddOrg';
 import OverlayAddPro from './OverlayAddPro';
 import OverlayAddMember from './OverlayAddMember';
@@ -34,6 +35,7 @@ function MyOrganizations() {
   const [showMemberOverlay, setShowMemberOverlay] = useState(false);
   const [showInvOverlay, setShowInvOverlay] = useState(false);
   const { userID, memberAccounts } = useUserContext();
+  const { setSelectedProject, setTopSelectedMenu } = useMenuContext();
   const [organizations, setOrganizations] = useState([]);
   const [invitations, setInvitations] = useState([]);
   const [members, setMembers] = useState([]);
@@ -46,7 +48,7 @@ function MyOrganizations() {
     fondoProyecto4
   ];
 
-  const logoOrgs = [ // Para poner fondos aleatorios chulos
+  const logoOrgs = [ // Para poner logos aleatorios chulos
     fondoProyecto1,
     fondoProyecto2,
     fondoProyecto3,
@@ -103,6 +105,11 @@ function MyOrganizations() {
     setShowMembers(false)
     setShowInfo(!showInfo)
   };
+
+  const handleSelectProject = (project) => {
+    setSelectedProject(project);
+    setTopSelectedMenu('project')
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -218,7 +225,7 @@ function MyOrganizations() {
                       <h4 id='fieldTitle'>Descripción:</h4> <h4 id='field'>{organization.org_desc}</h4>
                       <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{organization.org_creation_date}</h4>
                       <h4 id='fieldTitle'>Cuenta vinculada:</h4> <h4 id='field'>{organization.member_account}</h4>
-                      <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{organization.join_date}</h4>
+                      <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{new Date(organization.join_date).toLocaleDateString()}</h4>
                       <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organization.is_active}</h4>
                     </div>}
                 </div>
@@ -227,7 +234,7 @@ function MyOrganizations() {
                 <div className={`projectsOrganization ${!showBelow ? 'showBorder' : ''}`}>
                   {projects.map((project, proIndex) => (
                     memberAccounts.some(member => member.member_account === project.member_account) && project.orgname === organization.orgname && (
-                  <div key={proIndex} className='singleProjectOrganization'>
+                  <div key={proIndex} className='singleProjectOrganization' onClick={() => handleSelectProject(project)}>
                     <div className='backgroundSpace' style={{ backgroundImage: `url(${fondoProyectos[proIndex % fondoProyectos.length]})`, borderRadius: '10px 10px 0 0' }}></div>
                     <h2 className='projectNameBack'>{project.proname}</h2>
                   </div>
@@ -253,7 +260,7 @@ function MyOrganizations() {
                       member.orgname === organization.orgname && (
                         <div key={memberIndex} className='singleMemberContainer'>
                           <h4 id='memberElementName'>{member.member_account}</h4>
-                          <h4 id='memberElementDate'>{member.join_date}</h4>
+                          <h4 id='memberElementDate'>{new Date(member.join_date).toLocaleDateString()}</h4>
                           <h5 id='memberElementRole'>{member.is_owner ? "OWNER" : member.is_admin ? "ADMIN" : member.is_super_reviewer ? "SUPER REVIEWER" : "MEMBER"}</h5>
                         </div>
                       )
@@ -273,7 +280,7 @@ function MyOrganizations() {
             <h4 id='fieldTitle'>Descripción:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_desc}</h4>
             <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_creation_date}</h4>
             <h4 id='fieldTitle'>Cuenta vinculada:</h4> <h4 id='field'>{organizations[selectedOrgIndex].member_account}</h4>
-            <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{organizations[selectedOrgIndex].join_date}</h4>
+            <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{new Date(organizations[selectedOrgIndex].join_date).toLocaleDateString()}</h4>
             <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organizations[selectedOrgIndex].is_active}</h4>
           </div>}
         </div>
@@ -282,7 +289,7 @@ function MyOrganizations() {
         <div className={`projectsOrganizationRight ${!showBelow ? 'showBorder' : ''}`}>
           {projects.map((project, proIndex) => (
             memberAccounts.some(member => member.member_account === project.member_account) && project.orgname === organizations[selectedOrgIndex].orgname && (
-              <div key={proIndex} className='singleProjectOrganization'>
+              <div key={proIndex} className='singleProjectOrganization' onClick={() => handleSelectProject(project)}>
                 <div className='backgroundSpace' style={{ backgroundImage: `url(${fondoProyectos[proIndex % fondoProyectos.length]})`, borderRadius: '10px 10px 0 0' }}></div>
                 <h2 className='projectNameBack'>{project.proname}</h2>
               </div>
@@ -308,7 +315,7 @@ function MyOrganizations() {
                 member.orgname === organizations[selectedOrgIndex].orgname && (
                   <div key={memberIndex} className='singleMemberContainer'>
                     <h4 id='memberElementName'>{member.member_account}</h4>
-                    <h4 id='memberElementDate'>{member.join_date}</h4>
+                    <h4 id='memberElementDate'>{new Date(member.join_date).toLocaleDateString()}</h4>
                     <h5 id='memberElementRole'>{member.is_owner ? "OWNER" : member.is_admin ? "ADMIN" : member.is_super_reviewer ? "SUPER REVIEWER" : "MEMBER"}</h5>
                   </div>
                 )

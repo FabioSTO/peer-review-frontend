@@ -7,22 +7,25 @@ import MySubmissions from '../components/MySubmissions';
 import ProfileSidebar from '../components/ProfileSidebar';
 import { useMenuContext } from '../context/MenuContext'; 
 import MyOrganizations from '../components/MyOrganizations';
+import MyProject from '../components/MyProject';
 
 function YourCapeerPage() {
 
-  const { selectedTopMenu, profileSidebarVisible } = useMenuContext();
+  const { selectedTopMenu, profileSidebarVisible, selectedProject } = useMenuContext();
 
   let interfaceComponent;
 
-  // Aquí definimos qué componente mostrar basado en el valor de selectedInterface
+  // Qué componente mostrar del topMenu
   if (selectedTopMenu === 'reviews') {
     interfaceComponent = <MyReviews />;
   } else if (selectedTopMenu === 'submissions') {
     interfaceComponent = <MySubmissions />;
   } else if (selectedTopMenu === 'organizations') {
     interfaceComponent = <MyOrganizations />
-  } else {
-    interfaceComponent = null; // Puedes definir un componente predeterminado aquí si es necesario
+  } else if (selectedTopMenu === 'project') {
+    interfaceComponent = <MyProject />
+  }else {
+    interfaceComponent = null; // Componente predeterminado
   }
 
   return (
