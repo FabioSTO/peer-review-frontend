@@ -2,8 +2,9 @@ import { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
 import { addOrganization } from '../hooks/addOrganization';
 import { useUserContext } from '../context/UserContext';
+import { useMenuContext } from '../context/MenuContext';
 
-const Overlay = ({setShowOrgOverlay}) => {
+const Overlay = ({setShowOrgOverlay, setShowAlert}) => {
   const [error, setError] = useState(null);
   const [orgName, setOrgName] = useState("");
   const [orgDesc, setOrgDesc] = useState("");
@@ -13,7 +14,12 @@ const Overlay = ({setShowOrgOverlay}) => {
   const handleAddOrganization = async (e) => {
     e.preventDefault();
     try {
-      await addOrganization(orgName, orgDesc, chosenMemberAccount)
+      await addOrganization(orgName, orgDesc, chosenMemberAccount);
+      setShowOrgOverlay(false);
+      setShowAlert({ show:true, message:"¡La organización ha sido creada con éxito!" });
+      setTimeout(() => {
+        setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+      }, 4000);
     } catch (error) {
       setError(error.message)
     }

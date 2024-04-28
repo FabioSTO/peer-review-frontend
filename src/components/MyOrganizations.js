@@ -18,6 +18,7 @@ import OverlayAddOrg from './OverlayAddOrg';
 import OverlayAddPro from './OverlayAddPro';
 import OverlayAddMember from './OverlayAddMember';
 import OverlayInvitations from './OverlayInvitations';
+import Alert from './Alert';
 import { getOrganizations } from '../hooks/getOrganizations';
 import { getInvitations } from '../hooks/getInvitations';
 import { getMembersByOrg } from '../hooks/getMembersByOrg';
@@ -40,6 +41,7 @@ function MyOrganizations() {
   const [invitations, setInvitations] = useState([]);
   const [members, setMembers] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [showAlert, setShowAlert] = useState({show: false, message: ''});
 
   const fondoProyectos = [ // Para poner fondos aleatorios chulos
     fondoProyecto3,
@@ -112,51 +114,53 @@ function MyOrganizations() {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const organizations = await getOrganizations(userID);
-        if (organizations) {
-          setOrganizations(organizations);
-          const promises = organizations.map(async (organization) => {
-            const members = await getMembersByOrg(organization.orgname); // Obtener los miembros de la organización
-            const projects = await getProjectsByOrg(organization.orgname); // Obtener los proyectos de la organización
-            const membersWithOrgName = members.map(member => ({ ...member, orgname: organization.orgname }));
-            return { members: membersWithOrgName, projects: projects };
-          });
-        
-          Promise.all(promises)
-          .then((data) => {
-            const allMembers = data.flatMap(item => item.members); // Combino el array de arrays
-            setMembers(allMembers);
-            const allProjects = data.flatMap(item => item.projects); // Combino el array de arrays de proyectos
-            console.log(allProjects)
-            setProjects(allProjects);
-          })
-          .catch((error) => {
-            console.error('Error al obtener miembros:', error);
-          });
+    if (!showOrgOverlay) {
+      const fetchData = async () => {
+        try {
+          const organizations = await getOrganizations(userID);
+          if (organizations) {
+            setOrganizations(organizations);
+            const promises = organizations.map(async (organization) => {
+              const members = await getMembersByOrg(organization.orgname); // Obtener los miembros de la organización
+              const projects = await getProjectsByOrg(organization.orgname); // Obtener los proyectos de la organización
+              const membersWithOrgName = members.map(member => ({ ...member, orgname: organization.orgname }));
+              return { members: membersWithOrgName, projects: projects };
+            });
+          
+            Promise.all(promises)
+            .then((data) => {
+              const allMembers = data.flatMap(item => item.members); // Combino el array de arrays
+              setMembers(allMembers);
+              const allProjects = data.flatMap(item => item.projects); // Combino el array de arrays de proyectos
+              console.log(allProjects)
+              setProjects(allProjects);
+            })
+            .catch((error) => {
+              console.error('Error al obtener miembros:', error);
+            });
+          }
+          const invitations = await getInvitations(userID);
+          if (invitations) {
+            setInvitations(invitations);
+          }
+        } catch (error) {
+          console.error(error.message);
         }
-        const invitations = await getInvitations(userID);
-        if (invitations) {
-          setInvitations(invitations);
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    fetchData();
-
-    const handleResize = () => {
-      setShowBelow(window.innerWidth > 1310);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [userID]);
+      };
+  
+      fetchData();
+  
+      const handleResize = () => {
+        setShowBelow(window.innerWidth > 1310);
+      };
+  
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, [userID, showOrgOverlay, showProOverlay, showMemberOverlay, showInvOverlay]);
 
 
   // Datos de ejemplo para renderizar
@@ -187,11 +191,12 @@ function MyOrganizations() {
     <div className='organizationsInterface'>
       <div className='organizationsContainer'>
         <div className='organizationsWrapper'>
+        {showAlert.show && <Alert message={showAlert.message}/>}
         {invitations && <h5 className='invitationsNotice' onClick={() => setShowInvOverlay(true)}>Tienes {invitations.length} invitaciones de organizaciones.</h5>}
-        {showOrgOverlay && <OverlayAddOrg setShowOrgOverlay={setShowOrgOverlay}/>}
-        {showProOverlay && <OverlayAddPro setShowProOverlay={setShowProOverlay} orgMembers={members.filter(member => member.orgname === organizations[selectedOrgIndex].orgname && (member.is_admin || member.is_owner))} orgName={organizations[selectedOrgIndex].orgname}/>}
-        {showMemberOverlay && <OverlayAddMember orgName={organizations[selectedOrgIndex].orgname} setShowMemberOverlay={setShowMemberOverlay}/>}
-        {showInvOverlay && <OverlayInvitations invitations={invitations} setShowInvOverlay={setShowInvOverlay}/>}
+        {showOrgOverlay && <OverlayAddOrg setShowOrgOverlay={setShowOrgOverlay} setShowAlert={setShowAlert}/>}
+        {showProOverlay && <OverlayAddPro setShowProOverlay={setShowProOverlay} orgMembers={members.filter(member => member.orgname === organizations[selectedOrgIndex].orgname && (member.is_admin || member.is_owner))} orgName={organizations[selectedOrgIndex].orgname} setShowAlert={setShowAlert}/>}
+        {showMemberOverlay && <OverlayAddMember orgName={organizations[selectedOrgIndex].orgname} setShowMemberOverlay={setShowMemberOverlay} setShowAlert={setShowAlert}/>}
+        {showInvOverlay && <OverlayInvitations invitations={invitations} setShowInvOverlay={setShowInvOverlay} setShowAlert={setShowAlert}/>}
           {organizations.map((organization, orgIndex) => (
             <div className='singleOrganizationContainer' key={orgIndex}>
               <div className={`singleOrganization ${(selectedOrgIndex === orgIndex) ? 'showBorder' : ''}`}>

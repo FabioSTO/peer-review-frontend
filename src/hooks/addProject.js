@@ -4,10 +4,13 @@ const endpointUrl = apiUrl + "/projects"; // http://localhost:3001/projects
 
 export async function addProject(orgName, proName, proDesc, adminMember) {
   try {
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
     const response = await fetch(endpointUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ orgName, proName, proDesc, adminMember })
     })

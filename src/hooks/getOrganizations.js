@@ -5,7 +5,12 @@ const endpointUrl = apiUrl + "/organizations"; // http://localhost:3001/organiza
 export async function getOrganizations(userID) {
   let requestUrl = `${endpointUrl}/${userID}`;
   try {
-    const response = await fetch(requestUrl);
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    const response = await fetch(requestUrl, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     if (response.ok) {
       const data = await response.json();
       return data;

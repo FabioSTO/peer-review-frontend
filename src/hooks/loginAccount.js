@@ -16,8 +16,9 @@ const loginAccount = async (email, password) => {
 
     if (response.ok) {
       const result = await response.json();
+      document.cookie = `token=${result.token}; path=/; HttpOnly, secure`;
       return { userID: result.userID, username: result.username, email: result.email, 
-        userTags: result.userTags }
+        userTags: result.userTags}
         
     } else {
 

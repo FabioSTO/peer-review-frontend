@@ -3,7 +3,7 @@ import overlayaddorg from '../css/overlayaddorg.css'
 import { useUserContext } from '../context/UserContext';
 import { inviteMembers } from '../hooks/inviteMembers';
 
-const Overlay = ({orgName, setShowMemberOverlay}) => {
+const Overlay = ({orgName, setShowMemberOverlay, setShowAlert}) => {
   const [error, setError] = useState(null);
   const [members, setMembers] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -15,8 +15,21 @@ const Overlay = ({orgName, setShowMemberOverlay}) => {
     try {
       const result = await inviteMembers(userID, orgName, members)
       if (result.alreadyInvitedMembers && result.alreadyInvitedMembers.length > 0) {
-        setError("Algunos usuarios ya estaban invitados: " + result.alreadyInvitedMembers)
-      } 
+        setError("Algunos usuarios ya estaban invitados: " + result.alreadyInvitedMembers);
+        if (result.members.length > result.alreadyInvitedMembers.length) {
+          setShowAlert({ show:true, message:"¡Invitaciones enviadas con éxito!" });
+          setTimeout(() => {
+            setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+          }, 4000);
+        }
+      } else {
+        setShowMemberOverlay(false)
+        setShowAlert({ show:true, message:"¡Invitaciones enviadas con éxito!" });
+        setTimeout(() => {
+          setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+        }, 4000);
+      }
+      
       
     } catch (error) {
       setError(error.message)

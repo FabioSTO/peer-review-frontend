@@ -5,7 +5,12 @@ const endpointUrl = apiUrl + "/users"; // http://localhost:3001/users/{userID}/g
 export async function getMemberData(userID) {
   let requestUrl = `${endpointUrl}/${userID}/gitmembers`;
   try {
-    const response = await fetch(requestUrl);
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    const response = await fetch(requestUrl, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
     if (response.ok) {
       const data = await response.json();
       return data;

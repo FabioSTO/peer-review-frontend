@@ -3,7 +3,7 @@ import overlayaddorg from '../css/overlayaddorg.css'
 import { respondInvitation } from '../hooks/respondInvitation';
 
 
-const Overlay = ({invitations, setShowInvOverlay}) => {
+const Overlay = ({invitations, setShowInvOverlay, setShowAlert}) => {
   const [error, setError] = useState(null);
   const [responseInfo, setResponseInfo] = useState([]);
 
@@ -11,6 +11,10 @@ const Overlay = ({invitations, setShowInvOverlay}) => {
     try {
       const result = await respondInvitation(orgName, member_account, response);
       setResponseInfo(prevResponseInfo => [...prevResponseInfo, { index: invIndex, message: result.message }]);
+      setShowAlert({ show:true, message:"¡Invitación respondida con éxito!" });
+      setTimeout(() => {
+        setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+      }, 4000);
     } catch (error) {
       setError(error.message)
     }

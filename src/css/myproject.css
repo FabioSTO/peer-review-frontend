@@ -163,6 +163,30 @@
   overflow: hidden;
 }
 
+.reviewProject {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reviewProject #reviewProjectTitle {
+  flex-grow: 1;
+  text-overflow: ellipsis;
+
+}
+
+.reviewProject #addProject {
+  background-color: #eee5e5;
+  color: #110030;
+  border-radius: 10px;
+  line-height: 35px;
+  height: 40px;
+  border: solid 1px rgb(255, 255, 255);
+  cursor: pointer;
+  right: 0;
+}
+
 @media screen and (max-width: 1350px) {
   .singleSelProjectContainer {
     flex-direction: column;

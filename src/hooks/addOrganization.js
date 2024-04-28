@@ -4,10 +4,14 @@ const endpointUrl = apiUrl + "/organizations"; // http://localhost:3001/organiza
 
 export async function addOrganization(orgName, orgDesc, memberAccount) {
   try {
+    // Recupera el token de la cookie
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
     const response = await fetch(endpointUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ orgName, orgDesc, memberAccount })
     })

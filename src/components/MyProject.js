@@ -8,18 +8,20 @@ import { useUserContext } from '../context/UserContext';
 import { useMenuContext } from '../context/MenuContext';
 import { getProjectMembers } from '../hooks/getProjectMembers';
 import OverlayProAssignMember from './OverlayProAssignMember';
+import OverlayAddTask from './OverlayAddTask';
 
 function MyProject() {
   const { selectedProject } = useMenuContext();
-  const [ projectMembers, setProjectMember ] = useState([]);
+  const [ projectMembers, setProjectMembers ] = useState([]);
   const [ showMemberProjectOverlay, setShowMemberProjectOverlay ] = useState(false)
+  const [ showAddTaskOverlay, setShowAddTaskOverlay ] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const projectMembers = await getProjectMembers(selectedProject.proname);
         if (projectMembers) {
-          setProjectMember(projectMembers);
+          setProjectMembers(projectMembers);
         }
       } catch (error) {
         console.error(error.message);
@@ -43,10 +45,11 @@ function MyProject() {
     <div className='selProjectContainer'>
         <div className='singleSelProjectContainer'>
         {showMemberProjectOverlay && <OverlayProAssignMember project={selectedProject} setShowMemberProjectOverlay={setShowMemberProjectOverlay}/>}
+        {showAddTaskOverlay && <OverlayAddTask project={selectedProject} setShowAddTaskOverlay={setShowAddTaskOverlay} projectMembers={projectMembers}/>}
           <div className='selProject'>
             <div className='reviewProject' style={{ backgroundImage: `url(${fondoProyecto1})`, borderRadius: '10px 10px 0 0' }}>
-              <h1>{selectedProject.proname}</h1>
-              <img className='chatLogo' src={fondoProyecto1}/>
+              <h1 id='reviewProjectTitle'>{selectedProject.proname}</h1>
+              <h1 id='addProject' onClick={() => setShowAddTaskOverlay(true)}>&nbsp;+&nbsp;</h1>
             </div>
             <div className='projectContainer'>
               <div className='projectSection'>

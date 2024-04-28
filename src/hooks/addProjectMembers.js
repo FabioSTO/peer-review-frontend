@@ -5,10 +5,13 @@ const endpointUrl = apiUrl + "/projects"; // http://localhost:3001/projects/{pro
 export async function addProjectMembers(proName, members) {
   let requestUrl = `${endpointUrl}/${proName}/gitmembers`;
   try {
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
     const response = await fetch(requestUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ members })
     })

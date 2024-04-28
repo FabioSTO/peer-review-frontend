@@ -5,10 +5,13 @@ const endpointUrl = apiUrl + "/organizations"; // http://localhost:3001/organiza
 export async function inviteMembers(userID, orgName, members) {
   let requestUrl = `${endpointUrl}/${orgName}/invitations`;
   try {
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    
     const response = await fetch(requestUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({ userID, members })
     })

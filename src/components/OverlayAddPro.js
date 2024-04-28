@@ -3,7 +3,7 @@ import overlayaddorg from '../css/overlayaddorg.css'
 import { addProject } from '../hooks/addProject';
 import { useUserContext } from '../context/UserContext';
 
-const Overlay = ({setShowProOverlay, orgMembers, orgName}) => {
+const Overlay = ({setShowProOverlay, orgMembers, orgName, setShowAlert}) => {
   const [error, setError] = useState(null);
   const [proName, setProName] = useState("");
   const [proDesc, setProDesc] = useState("");
@@ -13,7 +13,12 @@ const Overlay = ({setShowProOverlay, orgMembers, orgName}) => {
   const handleAddProject = async (e) => {
     e.preventDefault();
     try {
-      await addProject(orgName, proName, proDesc, chosenMemberAccount)
+      await addProject(orgName, proName, proDesc, chosenMemberAccount);
+      setShowProOverlay(false);
+      setShowAlert({ show:true, message:"¡El proyecto ha sido creado con éxito!" });
+      setTimeout(() => {
+        setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+      }, 4000);
     } catch (error) {
       setError(error.message)
     }
