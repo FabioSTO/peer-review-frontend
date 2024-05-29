@@ -6,7 +6,7 @@ import { getMembersByOrg } from '../hooks/getMembersByOrg';
 import { getProjectMembers } from '../hooks/getProjectMembers';
 import { addProjectMembers } from '../hooks/addProjectMembers';
 
-const Overlay = ({project, setShowMemberProjectOverlay}) => {
+const Overlay = ({project, setShowMemberProjectOverlay, setShowAlert}) => {
   const [error, setError] = useState(null);
   const [members, setMembers] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -17,7 +17,12 @@ const Overlay = ({project, setShowMemberProjectOverlay}) => {
   const handleAssignProMember = async (e) => {
     e.preventDefault();
     try {
-      const result = await addProjectMembers(project.proname, selectedMembers)
+      const result = await addProjectMembers(project.proname, selectedMembers);
+      setShowAlert({ show:true, message:"¡Usuario/s asignado/s con éxito!" });
+      setTimeout(() => {
+        setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+      }, 4000);
+      setShowMemberProjectOverlay(false);
     } catch (error) {
       setError(error.message)
     }

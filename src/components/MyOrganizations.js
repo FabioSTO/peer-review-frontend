@@ -58,55 +58,87 @@ function MyOrganizations() {
   ];
 
   const handleShowProjects = (orgIndex) => {
+    setShowInfo(false)
+    setShowMembers(false)
+    if (orgIndex !== selectedOrgIndex && showProjects === true) {
+    } else {
+      setShowProjects(prevState => !prevState);
+    }
     setSelectedOrgIndex(prevIndex => {
-      if (orgIndex === prevIndex) {
+      if (orgIndex === prevIndex && showProjects === true) {
         return null;
       } 
       else if (prevIndex === null) {
         return orgIndex;
       } 
       else {
-        setTimeout(() => setSelectedOrgIndex(null), 0);
         return orgIndex;
       }});
-    setShowInfo(false)
-    setShowMembers(false)
-    setShowProjects(!showProjects)
   };
 
   const handleShowMembers = (orgIndex) => {
+    setShowInfo(false)
+    setShowProjects(false)
+    if (orgIndex !== selectedOrgIndex && showMembers === true) {
+    } else {
+      setShowMembers(prevState => !prevState);
+    }
     setSelectedOrgIndex(prevIndex => {
-      if (orgIndex === prevIndex) {
+      if (orgIndex === prevIndex && showMembers === true) {
         return null;
       } 
       else if (prevIndex === null) {
         return orgIndex;
       } 
       else {
-        setTimeout(() => setSelectedOrgIndex(null), 0);
         return orgIndex;
       }});
-    setShowInfo(false)
-    setShowProjects(false)
-    setShowMembers(!showMembers)
   };
 
   const handleShowInfo = (orgIndex) => {
+    setShowProjects(false)
+    setShowMembers(false)
+    if (orgIndex !== selectedOrgIndex && showInfo === true) {
+    } else {
+      setShowInfo(prevState => !prevState);
+    }
     setSelectedOrgIndex(prevIndex => {
-      if (orgIndex === prevIndex) {
+      if (orgIndex === prevIndex && showInfo === true) {
         return null;
       } 
       else if (prevIndex === null) {
         return orgIndex;
       } 
       else {
-        setTimeout(() => setSelectedOrgIndex(null), 0);
         return orgIndex;
       }});
-    setShowInfo(false)
-    setShowMembers(false)
-    setShowInfo(!showInfo)
   };
+
+  // Obtener clase CSS según el rol del miembro
+  function getRoleClassName(member) {
+    if (member.is_owner) {
+      return 'ownerRole';
+    } else if (member.is_admin) {
+      return 'adminRole';
+    } else if (member.is_super_reviewer) {
+      return 'superReviewerRole';
+    } else {
+      return 'memberRole';
+    }
+  }
+
+  // Obtener texto del rol del miembro
+  function getRoleLabel(member) {
+    if (member.is_owner) {
+      return "OWNER";
+    } else if (member.is_admin) {
+      return "ADMIN";
+    } else if (member.is_super_reviewer) {
+      return "SUPER REVIEWER";
+    } else {
+      return "MEMBER";
+    }
+  }
 
   const handleSelectProject = (project) => {
     setSelectedProject(project);
@@ -209,16 +241,16 @@ function MyOrganizations() {
                     {organization.is_super_reviewer ? <h3 className='isAdmin'>Super Reviewer</h3> : null}
                   </div>
                   <div className='orgOptions'>
-                    <div className='singleOption'>
-                      <img className='optionsIcon' src={eyeIcon} onClick={() => handleShowInfo(orgIndex)}/>
+                    <div className='singleOption' onClick={() => handleShowInfo(orgIndex)}>
+                      <img className='optionsIcon' src={eyeIcon}/>
                       <h3 className='optionsText'>Info</h3>
                     </div>
-                    <div className='singleOption'>
-                      <img className='optionsIcon' src={eyeIcon} onClick={() => handleShowProjects(orgIndex)}/>
+                    <div className='singleOption' onClick={() => handleShowProjects(orgIndex)}>
+                      <img className='optionsIcon' src={eyeIcon}/>
                       <h3 className='optionsText'>Projects</h3>
                     </div>
-                    <div className='singleOption'>
-                      <img className='optionsIcon' src={handshakeIcon} onClick={() => handleShowMembers(orgIndex)}/>
+                    <div className='singleOption' onClick={() => handleShowMembers(orgIndex)}>
+                      <img className='optionsIcon' src={handshakeIcon}/>
                       <h3 className='optionsText'>Members</h3>
                     </div>
                   </div>
@@ -266,7 +298,7 @@ function MyOrganizations() {
                         <div key={memberIndex} className='singleMemberContainer'>
                           <h4 id='memberElementName'>{member.member_account}</h4>
                           <h4 id='memberElementDate'>{new Date(member.join_date).toLocaleDateString()}</h4>
-                          <h5 id='memberElementRole'>{member.is_owner ? "OWNER" : member.is_admin ? "ADMIN" : member.is_super_reviewer ? "SUPER REVIEWER" : "MEMBER"}</h5>
+                          <h5 id='memberElementRole' className={getRoleClassName(member)}>{getRoleLabel(member)}</h5>
                         </div>
                       )
                     ))}
@@ -321,7 +353,7 @@ function MyOrganizations() {
                   <div key={memberIndex} className='singleMemberContainer'>
                     <h4 id='memberElementName'>{member.member_account}</h4>
                     <h4 id='memberElementDate'>{new Date(member.join_date).toLocaleDateString()}</h4>
-                    <h5 id='memberElementRole'>{member.is_owner ? "OWNER" : member.is_admin ? "ADMIN" : member.is_super_reviewer ? "SUPER REVIEWER" : "MEMBER"}</h5>
+                    <h5 id='memberElementRole' className={getRoleClassName(member)}>{getRoleLabel(member)}</h5>
                   </div>
                 )
               ))}

@@ -76,11 +76,14 @@
 .projectsOrganizationRight {
   display: flex;
   flex-direction: column;
+  position: fixed;
   margin: 3%;
   padding: 10px; 
   padding-top: 30px;
   margin: auto;
   border-radius: 10px;
+  top: 30%; /* Centra verticalmente */
+  left: 70%;
   background-color: rgb(26, 15, 83);
   border: 1px solid rgb(1, 0, 6);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
@@ -182,11 +185,32 @@
   margin-left: 10px;
 }
 
-.singleMemberContainer #memberElementRole {
+.ownerRole {
   margin-right: 10px;
-  color: #bb2ff7;
-  -webkit-text-stroke-width: 0.2px; /* Ancho del borde */
-  -webkit-text-stroke-color: rgb(238, 131, 255);
+  color: #ff5733; /* Cambia el color según el rol */
+  -webkit-text-stroke-width: 0.2px;
+  -webkit-text-stroke-color: #ff5733;
+}
+
+.adminRole {
+  margin-right: 10px;
+  color: #bb2ff7; /* Cambia el color según el rol */
+  -webkit-text-stroke-width: 0.2px;
+  -webkit-text-stroke-color: #bb2ff7;
+}
+
+.superReviewerRole {
+  margin-right: 10px;
+  color: #33ff6b; /* Cambia el color según el rol */
+  -webkit-text-stroke-width: 0.2px;
+  -webkit-text-stroke-color: #33ff6b;
+}
+
+.memberRole {
+  margin-right: 10px;
+  color: aliceblue; /* Cambia el color según el rol */
+  -webkit-text-stroke-width: 0.2px;
+  -webkit-text-stroke-color: aliceblue;
 }
 
 .singleMemberContainer #memberElementDate {
@@ -230,6 +254,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.orgName {
+  max-width: 100%;
+  overflow: hidden; /* Oculta el texto que sobresale */
+  text-overflow: ellipsis;
 }
 
 .isAdmin {
@@ -281,6 +311,10 @@
   border-radius: 0 0 10px 10px;
   text-align: center;
   padding-bottom: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 10px;
 }
 
 @media screen and (max-width: 750px) {
@@ -332,11 +366,17 @@
   .orgNameAndAdmin {
     flex-direction: column;
     margin: auto;
+    max-width: 100%;
   }
 
   .orgPicture {
     margin: auto;
     margin-top: 20px;
+  }
+
+  .orgName {
+    overflow: hidden; /* Oculta el texto que sobresale */
+    text-overflow: ellipsis;
   }
 }
 

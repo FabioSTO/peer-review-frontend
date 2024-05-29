@@ -9,19 +9,53 @@ import { useMenuContext } from '../context/MenuContext';
 import { getProjectMembers } from '../hooks/getProjectMembers';
 import OverlayProAssignMember from './OverlayProAssignMember';
 import OverlayAddTask from './OverlayAddTask';
+import Alert from './Alert';
+import { getTasksByPro } from '../hooks/getTasksByPro';
 
 function MyProject() {
   const { selectedProject } = useMenuContext();
   const [ projectMembers, setProjectMembers ] = useState([]);
+  const [ tasks, setTasks ] = useState([]);
   const [ showMemberProjectOverlay, setShowMemberProjectOverlay ] = useState(false)
-  const [ showAddTaskOverlay, setShowAddTaskOverlay ] = useState(false)
+  const [ showAddTaskOverlay, setShowAddTaskOverlay ] = useState(false);
+  const [showAlert, setShowAlert] = useState({show: false, message: ''});
+
+  // Obtener clase CSS según el rol del miembro
+  function getRoleClassName(member) {
+    if (member.is_owner) {
+      return 'ownerRole';
+    } else if (member.is_admin) {
+      return 'adminRole';
+    } else if (member.is_super_reviewer) {
+      return 'superReviewerRole';
+    } else {
+      return 'memberRole';
+    }
+  }
+
+  // Obtener texto del rol del miembro
+  function getRoleLabel(member) {
+    if (member.is_owner) {
+      return "OWNER";
+    } else if (member.is_admin) {
+      return "ADMIN";
+    } else if (member.is_super_reviewer) {
+      return "SUPER REVIEWER";
+    } else {
+      return "MEMBER";
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const projectMembers = await getProjectMembers(selectedProject.proname);
+        const tasks = await getTasksByPro(selectedProject.proname);
         if (projectMembers) {
           setProjectMembers(projectMembers);
+        }
+        if (tasks) {
+          setTasks(tasks);
         }
       } catch (error) {
         console.error(error.message);
@@ -39,17 +73,18 @@ function MyProject() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [showAddTaskOverlay, showMemberProjectOverlay]);
 
   return (
     <div className='selProjectContainer'>
         <div className='singleSelProjectContainer'>
-        {showMemberProjectOverlay && <OverlayProAssignMember project={selectedProject} setShowMemberProjectOverlay={setShowMemberProjectOverlay}/>}
-        {showAddTaskOverlay && <OverlayAddTask project={selectedProject} setShowAddTaskOverlay={setShowAddTaskOverlay} projectMembers={projectMembers}/>}
+        {showAlert.show && <Alert message={showAlert.message}/>}
+        {showMemberProjectOverlay && <OverlayProAssignMember project={selectedProject} setShowMemberProjectOverlay={setShowMemberProjectOverlay} setShowAlert={setShowAlert}/>}
+        {showAddTaskOverlay && <OverlayAddTask project={selectedProject} setShowAddTaskOverlay={setShowAddTaskOverlay} projectMembers={projectMembers} setShowAlert={setShowAlert}/>}
           <div className='selProject'>
             <div className='reviewProject' style={{ backgroundImage: `url(${fondoProyecto1})`, borderRadius: '10px 10px 0 0' }}>
               <h1 id='reviewProjectTitle'>{selectedProject.proname}</h1>
-              <h1 id='addProject' onClick={() => setShowAddTaskOverlay(true)}>&nbsp;+&nbsp;</h1>
+              <h1 id='addTask' onClick={() => setShowAddTaskOverlay(true)}>&nbsp;+&nbsp;</h1>
             </div>
             <div className='projectContainer'>
               <div className='projectSection'>
@@ -75,7 +110,7 @@ function MyProject() {
             {projectMembers.map((member, memberIndex) => (
               <div key={memberIndex} className='singleMemberContainer'>
                 <h4 id='memberElementName'>{member.member_account}</h4>
-                <h5 id='memberElementRole'>{member.is_admin ? "ADMIN" : member.is_reviewer ? "REVIEWER" : member.is_submitter ? "SUBMITTER" : "MEMBER"}</h5>
+                <h5 id='memberElementRole'className={getRoleClassName(member)}>{getRoleLabel(member)}</h5>
               </div>
             ))}
             <h5 className='botonRegister' onClick={() => setShowMemberProjectOverlay(true)}>
@@ -84,26 +119,13 @@ function MyProject() {
           </div>
         </div>
         <div className='tasksContainer'>
-            <div className='singleTask'>
-              <h2 id='task-name'>Tarea 1</h2>
-              <h3 id='task-desc'>Mejorar el coverage de los tests</h3>
-              <h5 style={{ color: 'green', background: 'lightgreen' }} id='task-status'>&nbsp;IN PROGRESS&nbsp;</h5>
-            </div>
-            <div className='singleTask'>
-            <h2 id='task-name'>Tarea 2</h2>
-              <h3 id='task-desc'>Arreglar los bugs de la interfaz de usuario y equipo</h3>
-              <h5 style={{ color: 'green', background: 'lightgreen' }} id='task-status'>&nbsp;IN PROGRESS&nbsp;</h5>
-            </div>
-            <div className='singleTask'>
-              <h2 id='task-name'>Tarea 1</h2>
-              <h3 id='task-desc'>Mejorar el coverage de los tests</h3>
-              <h5 style={{ color: 'green', background: 'lightgreen' }} id='task-status'>&nbsp;IN PROGRESS&nbsp;</h5>
-            </div>
-            <div className='singleTask'>
-              <h2 id='task-name'>Tarea 1</h2>
-              <h3 id='task-desc'>Mejorar el coverage de los tests</h3>
-              <h5 style={{ color: 'green', background: 'lightgreen' }} id='task-status'>&nbsp;IN PROGRESS&nbsp;</h5>
-            </div>
+          {tasks.map((task, taskIndex) => (
+            <div className='singleTask' key={taskIndex}>
+              <h2 id='task-name'>{task.taskname}</h2>
+              <h3 id='task-desc'>{task.task_desc}</h3>
+              <h5 style={{ color: 'green', background: 'lightgreen' }} id='task-status'>&nbsp;{task.task_state}&nbsp;</h5>
+           </div>
+          ))}
         </div>
     </div>
   );

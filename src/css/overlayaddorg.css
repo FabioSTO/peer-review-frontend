@@ -90,6 +90,7 @@
   color: rgb(244, 141, 57);
   margin: auto;
   margin-top: 20px;
+  min-width: 400px;
 }
 
 .invitationsOverlay #check{
@@ -110,4 +111,11 @@
   justify-content: space-between;
   margin: auto;
   cursor: pointer;
+}
+
+@media screen and (max-width: 750px) {
+  .invitationsOverlay #invitationsContent{
+    min-width: 200px;
+  }
+
 }

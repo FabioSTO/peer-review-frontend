@@ -1,20 +1,25 @@
+.topMenuContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 102px;
+  background-color: aliceblue;
+  position: fixed;
+}
+
 .topmenu {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  max-width: 75vw;
   background-color:rgb(20, 12, 60);
   height: 52px;
   overflow: auto;
   font-size: large;
   font-weight: bold;
-  margin-left: 230px;
-  margin-top: 102px;
-  position: fixed;
-  scrollbar-width: thin; /* Ancho del scrollbar */
+  scrollbar-width: thin;
 }
 
 .topmenu::-webkit-scrollbar {
-  width: 2px; /* Ancho de la barra de desplazamiento */
+  width: 2px;
 }
 
 .topmenuSection {
@@ -23,10 +28,21 @@
   padding-right: 40px;
   background-color: #eee5e5;
   border-radius: 20px 20px 0 0; 
-  cursor: default;
+  cursor:pointer;
   border: 1px solid rgb(1, 0, 6);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
   white-space: nowrap;
+}
+
+.fillTopMenu {
+  width: 230px;
+  background-color:rgb(20, 12, 60);
+}
+
+.fillTopMenuRight {
+  width: 50vw;
+  background-color:rgb(20, 12, 60);
+  height: 52px;
 }
 
 .topmenu .topmenuSection:hover {

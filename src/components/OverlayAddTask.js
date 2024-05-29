@@ -1,25 +1,31 @@
 import { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
-import { addProject } from '../hooks/addProject';
+import { addTask } from '../hooks/addTask'
 import { useUserContext } from '../context/UserContext';
 
-const Overlay = ({project, setShowAddTaskOverlay, projectMembers}) => {
+const Overlay = ({project, setShowAddTaskOverlay, projectMembers, setShowAlert}) => {
   const [error, setError] = useState(null);
   const [taskName, setTaskName] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
+  const [chosenMemberAccount, setChosenMemberAccount] = useState(null);
   const { userID, memberAccounts } = useUserContext();
 
   const handleAddProject = async (e) => {
     e.preventDefault();
     try {
-      //await addProject(orgName, taskName, taskDesc, chosenMemberAccount)
+      await addTask(project.proname, taskName, taskDesc, chosenMemberAccount, project.member_account )
+      setShowAddTaskOverlay(false);
+      setShowAlert({ show:true, message:"¡Tarea creada con éxito!" });
+      setTimeout(() => {
+        setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+      }, 4000);
     } catch (error) {
       setError(error.message)
     }
   }
 
   const handleMemberAccountChange = (e) => {
-    //setChosenMemberAccount(e.target.value);
+    setChosenMemberAccount(e.target.value);
   }
 
   return (
