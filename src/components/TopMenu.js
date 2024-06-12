@@ -4,7 +4,7 @@ import { useMenuContext } from '../context/MenuContext'
 
 function TopMenu() {
   const [showMyReviews, setShowMyReviews] = useState(false)
-  const [showMySubmissions, setShowMySubmissions] = useState(false)
+  const [showMyTasks, setShowMyTasks] = useState(false)
   const [showMyOrganizations, setShowMyOrganizations] = useState(false)
   const [showMyProject, setShowMyProject] = useState(false)
   const { selectedTopMenu, setTopSelectedMenu, selectedProject } = useMenuContext();
@@ -12,7 +12,7 @@ function TopMenu() {
   const handleShowMyReviews = (menuId) => {setShowMyReviews(!showMyReviews);
     setTopSelectedMenu(menuId)
   }
-  const handleShowMySubmissions = (menuId) => {setShowMySubmissions(!showMySubmissions)
+  const handleShowMyTasks = (menuId) => {setShowMyTasks(!showMyTasks)
     setTopSelectedMenu(menuId)
   }
   const handleShowMyOrganizations = (menuId) => {setShowMyOrganizations(!showMyOrganizations)
@@ -27,7 +27,7 @@ function TopMenu() {
       <div className='fillTopMenu'></div>
       <div className="topmenu">
         <div className='topmenuSection' id={`${selectedTopMenu === 'reviews' ? 'selected' : ''}`} onClick={() => handleShowMyReviews('reviews')}>My reviews</div>
-        <div className='topmenuSection' id={`${selectedTopMenu === 'submissions' ? 'selected' : ''}`} onClick={() => handleShowMySubmissions('submissions')}>My submissions</div>
+        <div className='topmenuSection' id={`${selectedTopMenu === 'tasks' ? 'selected' : ''}`} onClick={() => handleShowMyTasks('tasks')}>My tasks</div>
         <div className='topmenuSection' id={`${selectedTopMenu === 'organizations' ? 'selected' : ''}`} onClick={() => handleShowMyOrganizations('organizations')}>My organizations</div>
         {selectedProject && <div className='topmenuSection' id={`${selectedTopMenu === 'project' ? 'selected' : ''}`} onClick={() => handleShowMyProject('project')}>{selectedProject ? selectedProject.proname : ''}</div>}
       </div>

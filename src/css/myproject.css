@@ -122,6 +122,11 @@
   margin-bottom: 30px;
 }
 
+.singleTaskContainer {
+  display:flex;
+  flex-direction: row;
+}
+
 .singleTask {
   display: flex;
   flex-direction: row;
@@ -137,6 +142,7 @@
   padding-left: 10px;
   padding-right: 10px;
   height: 80px;
+  cursor: pointer;
 }
 
 #task-name {

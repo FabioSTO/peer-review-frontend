@@ -3,7 +3,7 @@ import Banner from '../components/Banner';
 import Sidebar from '../components/Sidebar';
 import TopMenu from '../components/TopMenu';
 import MyReviews from '../components/MyReviews';
-import MySubmissions from '../components/MySubmissions';
+import MyTasks from '../components/MyTasks';
 import ProfileSidebar from '../components/ProfileSidebar';
 import { useMenuContext } from '../context/MenuContext'; 
 import MyOrganizations from '../components/MyOrganizations';
@@ -18,8 +18,8 @@ function YourCapeerPage() {
   // Qué componente mostrar del topMenu
   if (selectedTopMenu === 'reviews') {
     interfaceComponent = <MyReviews />;
-  } else if (selectedTopMenu === 'submissions') {
-    interfaceComponent = <MySubmissions />;
+  } else if (selectedTopMenu === 'tasks') {
+    interfaceComponent = <MyTasks />;
   } else if (selectedTopMenu === 'organizations') {
     interfaceComponent = <MyOrganizations />
   } else if (selectedTopMenu === 'project') {

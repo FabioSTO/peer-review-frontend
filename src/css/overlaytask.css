@@ -1,0 +1,41 @@
+.taskMembersContainer {
+  display: flex;
+  flex-direction: row;
+  border: solid 1px rgb(0, 0, 0);
+  border-radius: 5px;
+  height: 100%;
+  padding-left: 10px;
+  width: 100%;
+}
+
+.taskMembersContainer div{
+  flex: 1; /* Hace que cada div hijo ocupe igual espacio */
+}
+
+.taskMembers {
+  display: flex;
+  flex-direction: row;
+}
+
+.allTaskMemberContainer {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.singleTaskMemberContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: rgb(26, 15, 83);
+  margin-top: 3%;
+  border-radius: 10px;
+  border: 1px solid rgb(1, 0, 6);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#taskForm {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+}

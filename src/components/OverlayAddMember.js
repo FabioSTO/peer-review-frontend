@@ -13,6 +13,10 @@ const Overlay = ({orgName, setShowMemberOverlay, setShowAlert}) => {
   const handleAddMember = async (e) => {
     e.preventDefault();
     try {
+      if (!(members.length > 0)) {
+        setError("No has añadido ningún usuario para añadir, presiona ENTER en la caja");
+        return;
+      }
       const result = await inviteMembers(userID, orgName, members)
       if (result.alreadyInvitedMembers && result.alreadyInvitedMembers.length > 0) {
         setError("Algunos usuarios ya estaban invitados: " + result.alreadyInvitedMembers);

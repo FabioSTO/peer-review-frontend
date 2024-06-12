@@ -10,7 +10,7 @@ const Overlay = ({project, setShowAddTaskOverlay, projectMembers, setShowAlert})
   const [chosenMemberAccount, setChosenMemberAccount] = useState(null);
   const { userID, memberAccounts } = useUserContext();
 
-  const handleAddProject = async (e) => {
+  const handleAddTask = async (e) => {
     e.preventDefault();
     try {
       await addTask(project.proname, taskName, taskDesc, chosenMemberAccount, project.member_account )
@@ -34,7 +34,7 @@ const Overlay = ({project, setShowAddTaskOverlay, projectMembers, setShowAlert})
         <button onClick={() => setShowAddTaskOverlay(false)} id='closeOverlayButton'>Cerrar</button>
         <h2 id='title'>Create new task</h2>
         <h3 id='title'>Assign members from <span style={{ color: 'orange' }}>{project.proname}</span></h3>
-        <form id='form' onSubmit={handleAddProject}>
+        <form id='form' onSubmit={handleAddTask}>
           <select className='inputForm' id="select" list="memberAccounts" placeholder='Members' onChange={handleMemberAccountChange} required>
           {projectMembers.length > 0 ? (
             <>

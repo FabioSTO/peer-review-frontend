@@ -1,0 +1,27 @@
+.codeContent {
+  width: 84%;
+  margin: 3%;
+  margin-left: 40px;
+  border-radius: 10px;
+}
+
+.commentsContainer {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 10px;
+  border: 1px solid rgb(1, 0, 6);
+  width: 24%;
+}
+
+.codeAndComments {
+  display: flex;
+  flex-direction: row;
+  background-color: aqua;
+}
+
+@media screen and (max-width: 1350px) {
+  .codeContent {
+    width: 83%;
+  }
+
+}

@@ -9,6 +9,7 @@ import { useMenuContext } from '../context/MenuContext';
 import { getProjectMembers } from '../hooks/getProjectMembers';
 import OverlayProAssignMember from './OverlayProAssignMember';
 import OverlayAddTask from './OverlayAddTask';
+import OverlayTask from './OverlayTask';
 import Alert from './Alert';
 import { getTasksByPro } from '../hooks/getTasksByPro';
 
@@ -18,7 +19,15 @@ function MyProject() {
   const [ tasks, setTasks ] = useState([]);
   const [ showMemberProjectOverlay, setShowMemberProjectOverlay ] = useState(false)
   const [ showAddTaskOverlay, setShowAddTaskOverlay ] = useState(false);
+  const [ showTaskOverlay, setShowTaskOverlay ] = useState(false);
+  const [ selectedTask, setSelectedTask ] = useState(null);
   const [showAlert, setShowAlert] = useState({show: false, message: ''});
+
+  const handleSelectTask = (task) => {
+    setSelectedTask(task);
+    setShowTaskOverlay(true);
+  }
+  
 
   // Obtener clase CSS según el rol del miembro
   function getRoleClassName(member) {
@@ -81,6 +90,7 @@ function MyProject() {
         {showAlert.show && <Alert message={showAlert.message}/>}
         {showMemberProjectOverlay && <OverlayProAssignMember project={selectedProject} setShowMemberProjectOverlay={setShowMemberProjectOverlay} setShowAlert={setShowAlert}/>}
         {showAddTaskOverlay && <OverlayAddTask project={selectedProject} setShowAddTaskOverlay={setShowAddTaskOverlay} projectMembers={projectMembers} setShowAlert={setShowAlert}/>}
+        {showTaskOverlay && <OverlayTask task={selectedTask} setShowTaskOverlay={setShowTaskOverlay} projectMembers={projectMembers} setShowAlert={setShowAlert}/>}
           <div className='selProject'>
             <div className='reviewProject' style={{ backgroundImage: `url(${fondoProyecto1})`, borderRadius: '10px 10px 0 0' }}>
               <h1 id='reviewProjectTitle'>{selectedProject.proname}</h1>
@@ -120,10 +130,12 @@ function MyProject() {
         </div>
         <div className='tasksContainer'>
           {tasks.map((task, taskIndex) => (
-            <div className='singleTask' key={taskIndex}>
-              <h2 id='task-name'>{task.taskname}</h2>
-              <h3 id='task-desc'>{task.task_desc}</h3>
-              <h5 style={{ color: 'green', background: 'lightgreen' }} id='task-status'>&nbsp;{task.task_state}&nbsp;</h5>
+            <div key={taskIndex} className='singleTaskContainer'>
+              <div className='singleTask' onClick={() => handleSelectTask(task)}>
+                <h2 id='task-name'>{task.taskname}</h2>
+                <h3 id='task-desc'>{task.assigned_member_account}</h3>
+                <h5 style={{ color: 'green', background: 'lightgreen' }} id='task-status'>&nbsp;{task.task_state}&nbsp;</h5>
+            </div>
            </div>
           ))}
         </div>

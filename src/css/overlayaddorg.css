@@ -32,6 +32,32 @@
   text-align: center;
 }
 
+.taskOptions {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  font-size:medium;
+  gap: 50px;
+}
+
+.taskOptions #taskOption {
+  border-radius: 10px;
+  padding: 5px;
+  color: rgb(12, 2, 50);
+  cursor: pointer;
+  width: 105px;
+  text-align: center;
+}
+
+.taskOption {
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+}
+
+.taskOption.selected {
+  outline: solid 3.5px rgb(98, 0, 255);
+}
+
 .overlay-content #form {
   border: solid 1px rgb(0, 0, 0);
   border-radius: 5px;
