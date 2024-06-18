@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userTags, setUserTags] = useState([]);
-  const [isLogged, setIsLogged] = useState(false);
+  const [activeMemberAccount, setActiveMemberAccount] = useState(null);
   const [profilePic, setProfilePic] = useState(null);
   const [memberAccounts, setMemberAccounts] = useState([]);
 
@@ -28,8 +28,8 @@ export const UserProvider = ({ children }) => {
     const storedUserTags = localStorage.getItem('userTags');
     if (storedUserTags) setUserTags(storedUserTags);
 
-    const storedIsLogged = localStorage.getItem('isLogged');
-    if (storedIsLogged) setIsLogged(storedIsLogged);
+    const storedActiveMemberAccount = localStorage.getItem('activeMemberAccount');
+    if (storedActiveMemberAccount) setActiveMemberAccount(storedActiveMemberAccount);
 
     const storedProfilePic = localStorage.getItem('profilePic');
     if (storedProfilePic) setProfilePic(storedProfilePic);
@@ -45,14 +45,14 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem('username', username);
     localStorage.setItem('userEmail', userEmail);
     localStorage.setItem('userTags', userTags);
-    localStorage.setItem('isLogged', isLogged);
+    localStorage.setItem('activeMemberAccount', activeMemberAccount);
     localStorage.setItem('profilePic', profilePic);
     localStorage.setItem('memberAccounts', memberAccounts);
-  }, [userID, username, userEmail, userTags, isLogged, profilePic, memberAccounts]);
+  }, [userID, username, userEmail, userTags, activeMemberAccount, profilePic, memberAccounts]);
 
   return (
     <UserContext.Provider value={{ userID, setUserID, username, setUsername, userEmail, setUserEmail,
-      userTags, setUserTags, isLogged, setIsLogged, profilePic, setProfilePic, memberAccounts, setMemberAccounts}}>
+      userTags, setUserTags, activeMemberAccount, setActiveMemberAccount, profilePic, setProfilePic, memberAccounts, setMemberAccounts}}>
       {children}
     </UserContext.Provider>
   )

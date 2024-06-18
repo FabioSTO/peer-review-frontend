@@ -33,23 +33,6 @@
   width: 100%;
 }
 
-.gitAccountList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  width: 100%;
-}
-
-#gitAccount {
-  background-color: rgb(20, 12, 60);
-  border-radius: 10px;
-  width: 90%;
-  margin: auto;
-  text-align: center;
-  line-height: 30px;
-  margin-bottom: 10px;
-}
-
 .profileSidebarPicNameClose #logo {
   margin-left: 15px;
 }
@@ -77,4 +60,35 @@
 .profileSidebarPicNameClose .userLogo { 
   height: 40px;
   width: 40px;
+}
+
+.gitAccountList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+
+#gitAccount {
+  background-color: rgb(20, 12, 60);
+  border-radius: 10px;
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  line-height: 30px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transform: scale 0.2s;
+}
+
+#gitAccount:hover {
+  scale: 1.01;
+  box-shadow: 0 0 8px rgb(95, 140, 150);
+}
+
+.activeAccount {
+  outline: solid 2px rgb(106, 154, 180);
+  color: rgb(194, 228, 246);;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgb(95, 140, 150);
 }

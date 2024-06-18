@@ -8,7 +8,7 @@ import { getMemberData } from '../hooks/getMemberData';
 
 function ProfileSidebar() {
   const client_id = process.env.REACT_APP_CLIENT_ID;
-  const { username, userID, userEmail, userTags, memberAccounts, setMemberAccounts } = useUserContext();
+  const { username, userID, userEmail, userTags, memberAccounts, setMemberAccounts, activeMemberAccount ,setActiveMemberAccount } = useUserContext();
   const { profileSidebarVisible, setProfileSidebarVisible, errorMessage } = useMenuContext();
   const [transitionSidebar, setTransitionSidebar] = useState(false);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
@@ -26,6 +26,16 @@ function ProfileSidebar() {
     setShowOverlay(true);
   };
 
+  const selectActiveMemberAccount = (index) => {
+    setActiveMemberAccount(memberAccounts[index].member_account);
+  };
+
+  useEffect(() => {
+    if (memberAccounts && memberAccounts.length === 1) {
+      setActiveMemberAccount(memberAccounts[0].member_account);
+    }
+  }, [memberAccounts]);
+
   const loginUrl = `https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}`;
 
   return (
@@ -38,7 +48,10 @@ function ProfileSidebar() {
       <hr className="separator" />
       <h4 className='linkedGitHubAccounts'>Linked GitHub accounts</h4>
       <ul className='gitAccountList'>
-        {memberAccounts !== null && memberAccounts.map((memberAccount, index) => ( <li key={index} id='gitAccount'>{memberAccount.member_account}</li>))}
+        {memberAccounts !== null && memberAccounts.map((memberAccount, index) => ( 
+          <li key={index} onClick={() => selectActiveMemberAccount(index)} id='gitAccount' className={activeMemberAccount === memberAccount.member_account ? 'activeAccount' : ''}>
+            {memberAccount.member_account}
+          </li>))}
       </ul>
       {errorMessage && <div className="error-message" id='errorText'>{errorMessage}</div>}
       {!isLoggedOut ? (

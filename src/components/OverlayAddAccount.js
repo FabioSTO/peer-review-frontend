@@ -18,6 +18,7 @@ const OverlayAddAccount = ({ setIsLoggedOut, setShowOverlay }) => {
   return (
     <div className="overlay">
       <div className="overlay-content" style={{ width: "fit-content", height: "25vh" }}>
+      <button onClick={() => setShowOverlay(false)} id='closeOverlayButton'>Cerrar</button>
         <div class="container">
           <h2 id='title'>You need to logout of GitHub to add another account</h2>
           <a onClick={handleLogout} className='github-btn'>

@@ -8,13 +8,16 @@ import ProfileSidebar from '../components/ProfileSidebar';
 import { useMenuContext } from '../context/MenuContext'; 
 import MyOrganizations from '../components/MyOrganizations';
 import MyProject from '../components/MyProject';
-import OverlayNoAccount from '../components/OverlayNoAccounts';
 import { useUserContext } from '../context/UserContext';
+import OverlayNoAccount from '../components/OverlayNoAccounts';
+import OverlayChooseAccount from '../components/OverlayChooseAccount';
+import { useState } from 'react';
 
 function YourCapeerPage() {
 
-  const { selectedTopMenu, profileSidebarVisible, selectedProject } = useMenuContext();
-  const { memberAccounts } = useUserContext();
+  const { setTopSelectedMenu, selectedTopMenu, profileSidebarVisible, selectedProject } = useMenuContext();
+  const { memberAccounts, activeMemberAccount } = useUserContext();
+  const [ showOverlayChooseAccount, setShowOverlayChooseAccount ] = useState(true);
 
   let interfaceComponent;
 
@@ -28,7 +31,8 @@ function YourCapeerPage() {
   } else if (selectedTopMenu === 'project') {
     interfaceComponent = <MyProject />
   }else {
-    interfaceComponent = null; // Componente predeterminado
+    setTopSelectedMenu('organizations')
+    interfaceComponent = <MyOrganizations />; // Componente predeterminado
   }
 
   return (
@@ -38,8 +42,9 @@ function YourCapeerPage() {
         <div className='fixid'><Sidebar /></div>
         <div className='subMainInterface'>
           <div className='fixid'><TopMenu /></div>
-          {!memberAccounts && <OverlayNoAccount />}
           { interfaceComponent }
+          {!memberAccounts && <OverlayNoAccount />}
+          {memberAccounts !== null && showOverlayChooseAccount && (memberAccounts.length > 1) && <OverlayChooseAccount setShowOverlayChooseAccount={setShowOverlayChooseAccount}/>}
         </div>
       </div>
       {profileSidebarVisible && <div className='fixid'><ProfileSidebar /></div>}

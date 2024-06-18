@@ -3,6 +3,7 @@ import { useState } from 'react';
 import registerAccount from '../hooks/registerAccount';
 import { useNavigate } from 'react-router-dom'; 
 import { useUserContext } from '../context/UserContext';
+import { getMemberData } from '../hooks/getMemberData';
 
 function RegisterForm() {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ function RegisterForm() {
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(null);
 
-  const { setUserID, setUsername, setUserEmail, setUserTags} = useUserContext();
+  const { setUserID, setUsername, setUserEmail, setUserTags, setMemberAccounts} = useUserContext();
 
   const navigate = useNavigate();
 
@@ -29,6 +30,11 @@ function RegisterForm() {
         setUserEmail(email);
         setUsername(name);
         setUserTags(tags);
+
+        const data = await getMemberData(userID);
+        if (data) {
+          setMemberAccounts(data);
+        }
         
         navigate('/yourcapeer');
       

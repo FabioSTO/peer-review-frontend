@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 function Banner() {
   const { profileSidebarVisible, setProfileSidebarVisible } = useMenuContext();
-  const { username, userID, userEmail, userTags, setMemberAccounts } = useUserContext();
+  const { username, userID, userEmail, userTags, setMemberAccounts, memberAccounts } = useUserContext();
   const [transitionSidebar, setTransitionSidebar] = useState(false)
 
   const toggleSidebar = () => {
@@ -20,7 +20,9 @@ function Banner() {
     async function fetchData() {
       try {
         const data = await getMemberData(userID);
-        setMemberAccounts(data);
+        if (data) {
+          setMemberAccounts(data);
+        }
       } catch (error) {
         console.error(error.message);
       }

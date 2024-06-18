@@ -24,6 +24,9 @@ import { getInvitations } from '../hooks/getInvitations';
 import { getMembersByOrg } from '../hooks/getMembersByOrg';
 import { getProjectsByOrg } from '../hooks/getProjectsByOrg';
 
+import OverlayNoAccount from '../components/OverlayNoAccounts';
+import OverlayChooseAccount from '../components/OverlayChooseAccount';
+
 function MyOrganizations() {
 
   const [selectedOrgIndex, setSelectedOrgIndex] = useState(null);

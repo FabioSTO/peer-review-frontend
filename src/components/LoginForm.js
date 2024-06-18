@@ -4,6 +4,7 @@ import RegisterForm from '../components/RegisterForm';
 import { useUserContext } from '../context/UserContext';
 import loginAccount from '../hooks/loginAccount';
 import { useNavigate } from 'react-router-dom';
+import { getMemberData } from '../hooks/getMemberData';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ function LoginForm() {
   const [showRegister, setShowRegister] = useState(false);
   const [error, setError] = useState(null);
 
-  const { setUserID, setUsername, setUserEmail, setUserTags} = useUserContext();
+  const { setUserID, setUsername, setUserEmail, setUserTags, setMemberAccounts} = useUserContext();
 
   const navigate = useNavigate();
 
@@ -25,6 +26,11 @@ function LoginForm() {
         setUserEmail(loginResult.email);
         setUsername(loginResult.username);
         setUserTags(loginResult.userTags);
+
+        const data = await getMemberData(loginResult.userID);
+        if (data) {
+          setMemberAccounts(data);
+        }
         
         navigate('/yourcapeer');
       
