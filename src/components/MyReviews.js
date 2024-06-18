@@ -45,7 +45,6 @@ function MyReviews() {
       try {
         const submissions = await getSubmissions(memberAccounts[0].member_account);
         const reviews = await getReviews(memberAccounts[0].member_account);
-        console.log(submissions);
         setSubmissions(submissions);
         setReviews(reviews);
       } catch (error) {
@@ -118,7 +117,7 @@ function MyReviews() {
           <div className='singleReview' onClick={() => handleReviewInfo(review)}>
             <div className='reviewProject' style={{ backgroundImage: `url(${reviewsTest[index%3].projectBackgroundPicture})`, borderRadius: '10px 10px 0 0' }}>
               <h1>{review.proname}</h1>
-              <img className='chatLogo' src={chatLogo} onClick={() => handleLogChat(index)}/>
+              <img className='chatLogo' src={chatLogo} onClick={(event) => {event.stopPropagation(); handleLogChat(index)}}/>
             </div>
             <div className='reviewsAndTags'>
               <h2 className='reviewTitle'>{review.reviewtitle}</h2>
@@ -129,6 +128,20 @@ function MyReviews() {
               </ul>
             </div>
           </div>
+          {(isChatLogOpen[index] || showAllComments) && (
+              <div className='reviewLog'>
+                <div className='userAndLog'>
+                  <h3 className='userLogUser'>{review.member_account}:</h3>
+                  <h3 className='userLog'>Commited</h3>
+                </div>
+                {review.userLogs.map((log, logIndex) => (
+                  <div className='userAndLog' key={logIndex}>
+                    <h3 className='userLogUser'>{log}:</h3>
+                    <h3 className='userLog'>Comment added</h3>
+                  </div>
+                ))}
+              </div>
+            )}
         </div>
       ))}
     </div>
@@ -141,7 +154,7 @@ function MyReviews() {
           <div className='singleReview' onClick={() => handleReviewInfo(submission)}>
             <div className='reviewProject' style={{ backgroundImage: `url(${reviewsTest[index%3].projectBackgroundPicture})`, borderRadius: '10px 10px 0 0' }}>
               <h1>{submission.proname}</h1>
-              <img className='chatLogo' src={chatLogo} onClick={() => handleLogChat(index)}/>
+              <img className='chatLogo' src={chatLogo} onClick={(event) => {event.stopPropagation(); handleLogChat(index)}}/>
             </div>
             <div className='reviewsAndTags'>
               <h2 className='reviewTitle'>{submission.reviewtitle}</h2>
@@ -152,6 +165,20 @@ function MyReviews() {
               </ul>
             </div>
           </div>
+          {(isChatLogOpen[index] || showAllComments) && (
+              <div className='reviewLog'>
+                <div className='userAndLog'>
+                  <h3 className='userLogUser'>{submission.member_account}:</h3>
+                  <h3 className='userLog'>Commited</h3>
+                </div>
+                {submission.userLogs.map((log, logIndex) => (
+                  <div className='userAndLog' key={logIndex}>
+                    <h3 className='userLogUser'>{log}:</h3>
+                    <h3 className='userLog'>Comment added</h3>
+                  </div>
+                ))}
+              </div>
+            )}
         </div>
       ))}
     </div>

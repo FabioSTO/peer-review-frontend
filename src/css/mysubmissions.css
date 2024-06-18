@@ -45,8 +45,6 @@
   color:#eee5e5;
 }
 
-
-
 .singleReviewContainer {
   display:flex;
   flex-direction: row;
@@ -63,17 +61,18 @@
   background-color: rgb(26, 15, 83);
   border: 1px solid rgb(1, 0, 6);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.15s;
+  transition: outline 0.5s;
 }
 
 .singleReview:hover {
-  transform: scale(1.02);
+  outline: 8px solid rgb(26, 15, 83);
 }
 
 .reviewLog {
   width: 20%;
   margin: 3%;
   padding: 10px; 
+  padding-top: 15px;
   margin-left: 40px;
   border-radius: 10px;
   background-color: rgb(26, 15, 83);
@@ -125,18 +124,23 @@
 .userAndLog {
   display: flex;
   flex-direction: row;
-  overflow: auto;
+  font-size:smaller;
 }
 
 .userLogUser {
   color: #ccc;
   padding-left: 10px;
-  line-height: 0.1;
+  padding-bottom: 10px;
+  margin: 0;
 }
 
 .userLog {
   padding-left: 10px;
-  line-height: 0.1;
+  padding-bottom: 10px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chatLogo {
@@ -167,7 +171,7 @@
 
   .chatLogo {
     display: block;
-    margin: auto;
+    margin-right: 50px;
   }
 
 }

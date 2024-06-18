@@ -3,13 +3,16 @@ import anonymous from '../img/anonymous.jpg'
 import '../css/profilesidebar.css';
 import { useUserContext } from '../context/UserContext';
 import { useMenuContext } from '../context/MenuContext';
+import OverlayAddAccount from './OverlayAddAccount';
 import { getMemberData } from '../hooks/getMemberData';
 
 function ProfileSidebar() {
   const client_id = process.env.REACT_APP_CLIENT_ID;
   const { username, userID, userEmail, userTags, memberAccounts, setMemberAccounts } = useUserContext();
   const { profileSidebarVisible, setProfileSidebarVisible, errorMessage } = useMenuContext();
-  const [transitionSidebar, setTransitionSidebar] = useState(false)
+  const [transitionSidebar, setTransitionSidebar] = useState(false);
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
     setTransitionSidebar(true);
@@ -18,6 +21,10 @@ function ProfileSidebar() {
   const handleCloseSidebar = () => {
     setProfileSidebarVisible(false)
   }
+
+  const handleLogout = () => {
+    setShowOverlay(true);
+  };
 
   const loginUrl = `https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}`;
 
@@ -34,8 +41,13 @@ function ProfileSidebar() {
         {memberAccounts !== null && memberAccounts.map((memberAccount, index) => ( <li key={index} id='gitAccount'>{memberAccount.member_account}</li>))}
       </ul>
       {errorMessage && <div className="error-message" id='errorText'>{errorMessage}</div>}
-      <a href={loginUrl} className='addGitHubButton'>Add GitHub account</a>
+      {!isLoggedOut ? (
+        <button onClick={handleLogout} className='addGitHubButton'>Add GitHub account</button>
+      ) : (
+        <a href={loginUrl} className='github-btn'>Add GitHub account</a>
+      )}
       <hr className="separator" />
+      {showOverlay && <OverlayAddAccount setIsLoggedOut={setIsLoggedOut} setShowOverlay={setShowOverlay}/>}
     </div>
   )
 }

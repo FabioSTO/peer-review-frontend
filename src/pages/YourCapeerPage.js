@@ -8,10 +8,13 @@ import ProfileSidebar from '../components/ProfileSidebar';
 import { useMenuContext } from '../context/MenuContext'; 
 import MyOrganizations from '../components/MyOrganizations';
 import MyProject from '../components/MyProject';
+import OverlayNoAccount from '../components/OverlayNoAccounts';
+import { useUserContext } from '../context/UserContext';
 
 function YourCapeerPage() {
 
   const { selectedTopMenu, profileSidebarVisible, selectedProject } = useMenuContext();
+  const { memberAccounts } = useUserContext();
 
   let interfaceComponent;
 
@@ -35,6 +38,7 @@ function YourCapeerPage() {
         <div className='fixid'><Sidebar /></div>
         <div className='subMainInterface'>
           <div className='fixid'><TopMenu /></div>
+          {!memberAccounts && <OverlayNoAccount />}
           { interfaceComponent }
         </div>
       </div>

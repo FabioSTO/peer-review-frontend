@@ -163,7 +163,15 @@ function NewReview() {
 
   const handleOrgChange = async (event) => {
     const projects = await getProjectsByOrg(event.target.value);
-    setProjects(projects);
+
+    const uniqueProjects = projects.reduce((acc, project) => {
+      if (!acc.some(p => p.proname === project.proname)) {
+        acc.push(project);
+      }
+      return acc;
+    }, []);
+
+    setProjects(uniqueProjects);
   };
 
   const handleProChange = async (event) => {
