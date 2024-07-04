@@ -23,9 +23,7 @@ import { getOrganizations } from '../hooks/getOrganizations';
 import { getInvitations } from '../hooks/getInvitations';
 import { getMembersByOrg } from '../hooks/getMembersByOrg';
 import { getProjectsByOrg } from '../hooks/getProjectsByOrg';
-
-import OverlayNoAccount from '../components/OverlayNoAccounts';
-import OverlayChooseAccount from '../components/OverlayChooseAccount';
+import OverlayChangeRoles from './OverlayChangeRoles';
 
 function MyOrganizations() {
 
@@ -38,13 +36,25 @@ function MyOrganizations() {
   const [showProOverlay, setShowProOverlay] = useState(false);
   const [showMemberOverlay, setShowMemberOverlay] = useState(false);
   const [showInvOverlay, setShowInvOverlay] = useState(false);
-  const { userID, memberAccounts } = useUserContext();
+  const [showOverlayChangeRoles, setShowOverlayChangeRoles] = useState(false);
+  const [changeRolesUserOrg, setChangeRolesUserOrg] = useState({ memberAccount: '', orgName: '' });
+  const { userID, memberAccounts, activeMemberAccount, setActiveMemberAccount } = useUserContext();
   const { setSelectedProject, setTopSelectedMenu } = useMenuContext();
   const [organizations, setOrganizations] = useState([]);
   const [invitations, setInvitations] = useState([]);
   const [members, setMembers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [showAlert, setShowAlert] = useState({show: false, message: ''});
+  const [isAll, setIsAll] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    setIsAll(event.target.checked);
+  };
+
+  const handleOverlayChangeRoles = (member) => {
+    setShowOverlayChangeRoles(true);
+    setChangeRolesUserOrg({ memberAccount: member.member_account, orgName: member.orgname });
+  };
 
   const fondoProyectos = [ // Para poner fondos aleatorios chulos
     fondoProyecto3,
@@ -152,9 +162,18 @@ function MyOrganizations() {
     if (!showOrgOverlay) {
       const fetchData = async () => {
         try {
-          const organizations = await getOrganizations(userID);
+          const organizations = await getOrganizations(userID);         
+            
           if (organizations) {
-            setOrganizations(organizations);
+            if (!isAll) {
+              const memberOrganizations = organizations.filter(organization => {
+                return organization.member_account === activeMemberAccount;
+              })
+              setOrganizations(memberOrganizations);
+            } else {
+              setOrganizations(organizations);
+            }
+            
             const promises = organizations.map(async (organization) => {
               const members = await getMembersByOrg(organization.orgname); // Obtener los miembros de la organización
               const projects = await getProjectsByOrg(organization.orgname); // Obtener los proyectos de la organización
@@ -182,6 +201,10 @@ function MyOrganizations() {
           console.error(error.message);
         }
       };
+
+      if (memberAccounts && memberAccounts.length == 1) {
+        setActiveMemberAccount(memberAccounts[0].member_account);
+      }
   
       fetchData();
   
@@ -195,7 +218,7 @@ function MyOrganizations() {
         window.removeEventListener('resize', handleResize);
       };
     }
-  }, [userID, showOrgOverlay, showProOverlay, showMemberOverlay, showInvOverlay]);
+  }, [userID, showOrgOverlay, showProOverlay, showMemberOverlay, showInvOverlay, showOverlayChangeRoles, activeMemberAccount, isAll]);
 
 
   // Datos de ejemplo para renderizar
@@ -227,11 +250,23 @@ function MyOrganizations() {
       <div className='organizationsContainer'>
         <div className='organizationsWrapper'>
         {showAlert.show && <Alert message={showAlert.message}/>}
-        {invitations && <h5 className='invitationsNotice' onClick={() => setShowInvOverlay(true)}>Tienes {invitations.length} invitaciones de organizaciones.</h5>}
+        <div className='invAndFilter'>
+          {invitations && <h5 className='invitationsNotice' onClick={() => setShowInvOverlay(true)}>Tienes {invitations.length} invitaciones de organizaciones. </h5>} 
+          <label class="switchBtn">
+            <input type="checkbox" checked={isAll} onChange={handleCheckboxChange}/>
+            <div class="slide">
+              <span class="text off">All</span>
+              <div class="knob"></div>
+              <span class="text on">Active</span>
+            </div>
+            <span class="popup">All accounts / Active account only</span>
+          </label>
+        </div>
         {showOrgOverlay && <OverlayAddOrg setShowOrgOverlay={setShowOrgOverlay} setShowAlert={setShowAlert}/>}
         {showProOverlay && <OverlayAddPro setShowProOverlay={setShowProOverlay} orgMembers={members.filter(member => member.orgname === organizations[selectedOrgIndex].orgname && (member.is_admin || member.is_owner))} orgName={organizations[selectedOrgIndex].orgname} setShowAlert={setShowAlert}/>}
         {showMemberOverlay && <OverlayAddMember orgName={organizations[selectedOrgIndex].orgname} setShowMemberOverlay={setShowMemberOverlay} setShowAlert={setShowAlert}/>}
         {showInvOverlay && <OverlayInvitations invitations={invitations} setShowInvOverlay={setShowInvOverlay} setShowAlert={setShowAlert}/>}
+        {showOverlayChangeRoles && <OverlayChangeRoles setShowOverlayChangeRoles={setShowOverlayChangeRoles} setShowAlert={setShowAlert} changeRolesUserOrg={changeRolesUserOrg} isOrg={true}/>}
           {organizations.map((organization, orgIndex) => (
             <div className='singleOrganizationContainer' key={orgIndex}>
               <div className={`singleOrganization ${(selectedOrgIndex === orgIndex) ? 'showBorder' : ''}`}>
@@ -263,10 +298,10 @@ function MyOrganizations() {
                 <div className={`projectsOrganization ${!showBelow ? 'showBorder' : ''}`}>
                   { <div className='infoContainer'>
                       <h4 id='fieldTitle'>Descripción:</h4> <h4 id='field'>{organization.org_desc}</h4>
-                      <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{organization.org_creation_date}</h4>
+                      <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{new Date(organization.org_creation_date).toLocaleDateString()}</h4>
                       <h4 id='fieldTitle'>Cuenta vinculada:</h4> <h4 id='field'>{organization.member_account}</h4>
                       <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{new Date(organization.join_date).toLocaleDateString()}</h4>
-                      <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organization.is_active}</h4>
+                      <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organization.is_active ? "Active" : "Inactive"}</h4>
                     </div>}
                 </div>
               }
@@ -301,7 +336,7 @@ function MyOrganizations() {
                         <div key={memberIndex} className='singleMemberContainer'>
                           <h4 id='memberElementName'>{member.member_account}</h4>
                           <h4 id='memberElementDate'>{new Date(member.join_date).toLocaleDateString()}</h4>
-                          <h5 id='memberElementRole' className={getRoleClassName(member)}>{getRoleLabel(member)}</h5>
+                          <h5 id='memberElementRole' className={getRoleClassName(member)} onClick={() => handleOverlayChangeRoles(member)}>{getRoleLabel(member)} {((organization.is_admin && getRoleLabel(member) !== "OWNER") || organization.is_owner) ? <span className='plus-circle'>+</span>: <></>}</h5>
                         </div>
                       )
                     ))}
@@ -318,10 +353,10 @@ function MyOrganizations() {
         <div className={`projectsOrganizationRight ${showBelow ? 'showBorder' : ''}`}>
           {<div className='infoContainerBelow'>
             <h4 id='fieldTitle'>Descripción:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_desc}</h4>
-            <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{organizations[selectedOrgIndex].org_creation_date}</h4>
+            <h4 id='fieldTitle'>Fecha de creación:</h4> <h4 id='field'>{new Date(organizations[selectedOrgIndex].org_creation_date).toLocaleDateString()}</h4>
             <h4 id='fieldTitle'>Cuenta vinculada:</h4> <h4 id='field'>{organizations[selectedOrgIndex].member_account}</h4>
             <h4 id='fieldTitle'>Join date:</h4> <h4 id='field'>{new Date(organizations[selectedOrgIndex].join_date).toLocaleDateString()}</h4>
-            <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organizations[selectedOrgIndex].is_active}</h4>
+            <h4 id='fieldTitle'>¿Organización activa?:</h4> <h4 id='field'>{organizations[selectedOrgIndex].is_active ? "Active" : "Inactive"}</h4>
           </div>}
         </div>
       }
@@ -356,7 +391,7 @@ function MyOrganizations() {
                   <div key={memberIndex} className='singleMemberContainer'>
                     <h4 id='memberElementName'>{member.member_account}</h4>
                     <h4 id='memberElementDate'>{new Date(member.join_date).toLocaleDateString()}</h4>
-                    <h5 id='memberElementRole' className={getRoleClassName(member)}>{getRoleLabel(member)}</h5>
+                    <h5 id='memberElementRole' className={getRoleClassName(member)} onClick={() => handleOverlayChangeRoles(member)}>{getRoleLabel(member)} {((organizations[selectedOrgIndex].is_admin && getRoleLabel(member) !== "OWNER") || organizations[selectedOrgIndex].is_owner) ? <span className='plus-circle'>+</span>: <></>}</h5>
                   </div>
                 )
               ))}
@@ -370,9 +405,6 @@ function MyOrganizations() {
     <div className='buttonsOrganization'>
       <h3 className='botonRegister' onClick={() => setShowOrgOverlay(true)}>
             + ADD ORGANIZATION
-      </h3>
-      <h3 className='botonRegister'>
-            + JOIN ORGANIZATION
       </h3>
     </div>
    </div>

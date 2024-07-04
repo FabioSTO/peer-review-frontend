@@ -17,7 +17,7 @@ const ReviewInfo = ({ review }) => {
   const [ comment, setComment ] = useState("");
   const [ comments, setComments ] = useState("");
 
-  const { memberAccounts, userID } = useUserContext();
+  const { memberAccounts, userID, activeMemberAccount } = useUserContext();
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
@@ -26,7 +26,7 @@ const ReviewInfo = ({ review }) => {
   const handleSendComment = async (event) => {
     event.preventDefault();
     try {
-      await sendComment( memberAccounts[0].member_account, comment, review.reviewID );
+      await sendComment( activeMemberAccount, comment, review.reviewID );
       const commentaries = await getComments( review.reviewID );
       setComments(commentaries)
       setComment("");
@@ -66,7 +66,7 @@ const ReviewInfo = ({ review }) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [activeMemberAccount]);
 
   return ( 
       <div className='reviewsContainerInfo'>
@@ -96,9 +96,9 @@ const ReviewInfo = ({ review }) => {
           <div className='commentsContainer'>
             <div className='commentContent'>
               {comments && comments.map((comment, index) => (
-                <div className={`commentary-wrapper ${comment.member_account === memberAccounts[0].member_account ? 'commentary-wrapperMine' : ''}`} key={index}>
-                  <div className={`commentary ${comment.member_account === memberAccounts[0].member_account ? 'commentaryMine' : ''}`}>
-                    {comment.member_account !== memberAccounts[0].member_account && 
+                <div className={`commentary-wrapper ${comment.member_account === activeMemberAccount ? 'commentary-wrapperMine' : ''}`} key={index}>
+                  <div className={`commentary ${comment.member_account === activeMemberAccount ? 'commentaryMine' : ''}`}>
+                    {comment.member_account !== activeMemberAccount && 
                       <span className='commentUser'>{comment.member_account}</span>
                     }
                     <span className='commentMessage'>{comment.comment_content} </span>
@@ -128,9 +128,9 @@ const ReviewInfo = ({ review }) => {
             <div className='commentsContainerDiff'>
               <div className='commentContent'>
                 {comments && comments.map((comment, index) => (
-                  <div className={`commentary-wrapper ${comment.member_account === memberAccounts[0].member_account ? 'commentary-wrapperMine' : ''}`} key={index}>
-                    <div className={`commentary ${comment.member_account === memberAccounts[0].member_account ? 'commentaryMine' : ''}`}>
-                      {comment.member_account !== memberAccounts[0].member_account && 
+                  <div className={`commentary-wrapper ${comment.member_account === activeMemberAccount ? 'commentary-wrapperMine' : ''}`} key={index}>
+                    <div className={`commentary ${comment.member_account === activeMemberAccount ? 'commentaryMine' : ''}`}>
+                      {comment.member_account !== activeMemberAccount && 
                         <span className='commentUser'>{comment.member_account}</span>
                       }
                       <span className='commentMessage'>{comment.comment_content} </span>
@@ -158,9 +158,9 @@ const ReviewInfo = ({ review }) => {
             <div className='commentsContainerDiff'>
               <div className='commentContent'>
                 {comments && comments.map((comment, index) => (
-                  <div className={`commentary-wrapper ${comment.member_account === memberAccounts[0].member_account ? 'commentary-wrapperMine' : ''}`} key={index}>
-                    <div className={`commentary ${comment.member_account === memberAccounts[0].member_account ? 'commentaryMine' : ''}`}>
-                      {comment.member_account !== memberAccounts[0].member_account && 
+                  <div className={`commentary-wrapper ${comment.member_account === activeMemberAccount ? 'commentary-wrapperMine' : ''}`} key={index}>
+                    <div className={`commentary ${comment.member_account === activeMemberAccount ? 'commentaryMine' : ''}`}>
+                      {comment.member_account !== activeMemberAccount && 
                         <span className='commentUser'>{comment.member_account}</span>
                       }
                       <span className='commentMessage'>{comment.comment_content} </span>

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
 import { addOrganization } from '../hooks/addOrganization';
 import { useUserContext } from '../context/UserContext';
-import { useMenuContext } from '../context/MenuContext';
 
 const Overlay = ({setShowOrgOverlay, setShowAlert}) => {
   const [error, setError] = useState(null);

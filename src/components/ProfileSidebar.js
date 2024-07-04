@@ -31,7 +31,7 @@ function ProfileSidebar() {
   };
 
   useEffect(() => {
-    if (memberAccounts && memberAccounts.length === 1) {
+    if (memberAccounts && memberAccounts.length == 1) {
       setActiveMemberAccount(memberAccounts[0].member_account);
     }
   }, [memberAccounts]);

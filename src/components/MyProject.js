@@ -12,6 +12,7 @@ import OverlayAddTask from './OverlayAddTask';
 import OverlayTask from './OverlayTask';
 import Alert from './Alert';
 import { getTasksByPro } from '../hooks/getTasksByPro';
+import OverlayChangeRoles from './OverlayChangeRoles';
 
 function MyProject() {
   const { selectedProject } = useMenuContext();
@@ -21,6 +22,9 @@ function MyProject() {
   const [ showAddTaskOverlay, setShowAddTaskOverlay ] = useState(false);
   const [ showTaskOverlay, setShowTaskOverlay ] = useState(false);
   const [ selectedTask, setSelectedTask ] = useState(null);
+  const [showOverlayChangeRoles, setShowOverlayChangeRoles] = useState(false);
+  const [changeRolesUserOrg, setChangeRolesUserOrg] = useState({ memberAccount: '', orgName: '' });
+  const {activeMemberAccount} = useUserContext();
   const [showAlert, setShowAlert] = useState({show: false, message: ''});
 
   const handleSelectTask = (task) => {
@@ -37,6 +41,8 @@ function MyProject() {
       return 'adminRole';
     } else if (member.is_super_reviewer) {
       return 'superReviewerRole';
+    } else if (member.is_reviewer) {
+      return 'superReviewerRole';
     } else {
       return 'memberRole';
     }
@@ -50,10 +56,17 @@ function MyProject() {
       return "ADMIN";
     } else if (member.is_super_reviewer) {
       return "SUPER REVIEWER";
-    } else {
+    } else if (member.is_reviewer) {
+      return "REVIEWER";
+    }else {
       return "MEMBER";
     }
   }
+
+  const handleOverlayChangeRoles = (member) => {
+    setShowOverlayChangeRoles(true);
+    setChangeRolesUserOrg({ memberAccount: member.member_account, orgName: selectedProject.proname });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +95,7 @@ function MyProject() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [showAddTaskOverlay, showMemberProjectOverlay]);
+  }, [showAddTaskOverlay, showMemberProjectOverlay, showOverlayChangeRoles]);
 
   return (
     <div className='selProjectContainer'>
@@ -91,6 +104,7 @@ function MyProject() {
         {showMemberProjectOverlay && <OverlayProAssignMember project={selectedProject} setShowMemberProjectOverlay={setShowMemberProjectOverlay} setShowAlert={setShowAlert}/>}
         {showAddTaskOverlay && <OverlayAddTask project={selectedProject} setShowAddTaskOverlay={setShowAddTaskOverlay} projectMembers={projectMembers} setShowAlert={setShowAlert}/>}
         {showTaskOverlay && <OverlayTask task={selectedTask} setShowTaskOverlay={setShowTaskOverlay} projectMembers={projectMembers} setShowAlert={setShowAlert}/>}
+        {showOverlayChangeRoles && <OverlayChangeRoles setShowOverlayChangeRoles={setShowOverlayChangeRoles} setShowAlert={setShowAlert} changeRolesUserOrg={changeRolesUserOrg} isOrg={false}/>}
           <div className='selProject'>
             <div className='reviewProject' style={{ backgroundImage: `url(${fondoProyecto1})`, borderRadius: '10px 10px 0 0' }}>
               <h1 id='reviewProjectTitle'>{selectedProject.proname}</h1>
@@ -120,7 +134,7 @@ function MyProject() {
             {projectMembers.map((member, memberIndex) => (
               <div key={memberIndex} className='singleMemberContainer'>
                 <h4 id='memberElementName'>{member.member_account}</h4>
-                <h5 id='memberElementRole'className={getRoleClassName(member)}>{getRoleLabel(member)}</h5>
+                <h5 id='memberElementRole'className={getRoleClassName(member)} onClick={() => handleOverlayChangeRoles(member)}>{getRoleLabel(member)} {(projectMembers.some(member => (member.member_account === activeMemberAccount && member.is_admin)) ) ? <span className='plus-circle'>+</span>: <></>}</h5>
               </div>
             ))}
             <h5 className='botonRegister' onClick={() => setShowMemberProjectOverlay(true)}>

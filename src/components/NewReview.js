@@ -41,13 +41,13 @@ function NewReview() {
   const [inputValue2, setInputValue2] = useState("");
 
   
-  const { memberAccounts, userID } = useUserContext();
+  const { memberAccounts, userID, activeMemberAccount } = useUserContext();
 
   //////////////////// Tengo el memberAccounts[0] porque aun no hice lo de elegir cuenta
 
   const handleGetRepositories = async () => {
     try {
-      const commits = await getRepositories( memberAccounts[0].member_account ); 
+      const commits = await getRepositories( activeMemberAccount ); 
       setCommits(commits);
       console.log(commits);
 

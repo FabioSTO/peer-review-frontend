@@ -19,7 +19,7 @@ function MyReviews() {
   const [ reviews, setReviews ] = useState([]);
   const [ reviewInfo, setReviewInfo ] = useState(null);
   const [showAllComments, setShowAllComments] = useState(window.innerWidth > 1350);
-  const { memberAccounts, userID } = useUserContext();
+  const { memberAccounts, userID, activeMemberAccount } = useUserContext();
 
   // Manejador para alternar el estado de un elemento
   const handleLogChat = (index) => {
@@ -43,8 +43,8 @@ function MyReviews() {
 
     const fetchData = async () => {
       try {
-        const submissions = await getSubmissions(memberAccounts[0].member_account);
-        const reviews = await getReviews(memberAccounts[0].member_account);
+        const submissions = await getSubmissions(activeMemberAccount);
+        const reviews = await getReviews(activeMemberAccount);
         setSubmissions(submissions);
         setReviews(reviews);
       } catch (error) {
@@ -63,7 +63,7 @@ function MyReviews() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [activeMemberAccount]);
 
   // Datos de ejemplo para renderizar
   const reviewsTest = [
