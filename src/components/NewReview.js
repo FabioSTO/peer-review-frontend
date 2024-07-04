@@ -6,6 +6,7 @@ import { getProjectsByOrg } from '../hooks/getProjectsByOrg';
 import { getTasksByPro } from '../hooks/getTasksByPro';
 import { addReview } from '../hooks/addReview';
 import '../css/newreview.css'
+import Alert from './Alert';
 import "diff2html/bundles/css/diff2html.min.css";
 import { getRepositories } from '../hooks/getRepositories';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -13,7 +14,7 @@ import { darcula, dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { html, css, javascript, java, python } from 'react-syntax-highlighter/dist/esm/languages/hljs';
 const Diff2Html = require('diff2html');
 
-function NewReview() {
+const NewReview = ({ setSelectedOptionMenu }) => {
   const [error, setError] = useState(null);
   const [organizations, setOrganizations] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -32,6 +33,7 @@ function NewReview() {
   const [ selectedTask, setSelectedTask ] = useState(null);
   const [ tagValue, setTagValue ] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [showAlert, setShowAlert] = useState({show: false, message: ''});
 
   const [inputValue, setInputValue] = useState("");
 
@@ -153,11 +155,7 @@ function NewReview() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setSelectedImage(file);
     }
   };
 
@@ -209,6 +207,11 @@ function NewReview() {
         reviewContent = commitInfo;
       }
       await addReview( selectedTask, title, desc,  selectedOption, tags, selectedImage, reviewContent, selectedContentOption, memberAccounts[0]);
+      setShowAlert({ show:true, message:"¡Roles guardados con éxito!" });
+      setTimeout(() => {
+        setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));
+      }, 4000);
+      setSelectedOptionMenu("submissions");
     } catch (error) {
       setError(error.message)
     }
@@ -216,6 +219,7 @@ function NewReview() {
 
   return (
     <div className='newReviewContainer' style={{ width: '80vw' }}>
+      {showAlert.show && <Alert message={showAlert.message}/>}
         <div style={{ width: '100%', height: '2px', backgroundColor: 'rgb(26, 15, 83)', margin: '20px 0' }}></div>
 
         <div style={{ display: 'flex', flexDirection: 'row'}}>

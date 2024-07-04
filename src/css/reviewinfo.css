@@ -14,6 +14,38 @@
   outline: solid #091e2c;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+}
+
+.modal-content {
+  position: relative;
+  max-width: 50%;
+  overflow: auto;
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.modal-content img {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .codeContentCommit {
   width: 100%;
   margin: 3%;
@@ -149,6 +181,18 @@
   flex-direction: column;
 }
 
+#markAsClosed:hover {
+  background-color: rgb(207, 135, 0);
+  color: aliceblue  !important;
+  border-color: aliceblue !important;
+}
+
+#seeImg:hover {
+  background-color: rgb(207, 135, 0);
+  color: lightblue !important;
+  border-color: lightblue !important;
+}
+
 @media screen and (max-width: 1350px) {
   .codeContent {
     width: 83%;
@@ -195,6 +239,10 @@
     margin-bottom: 2%;
     padding-top: 10px;
   }
+
+  #singleReviewId {
+    width: 90%;
+  }
 }
 
 @media screen and (max-width: 750px) {
@@ -207,4 +255,9 @@
     max-width: 52%;
     width: 100%;
   }
+
+  #singleReviewId {
+    width: 85%;
+  }
+
 }

@@ -10,36 +10,8 @@ const OverlayChangeRoles = ({ setShowOverlayChangeRoles, setShowAlert, changeRol
   const [isAdmin, setIsAdmin] = useState(null);
   const [isSuperReviewer, setIsSuperReviewer] = useState(null);
   const [isReviewer, setIsReviewer] = useState(null);
-  const [rolesUpdated, setRolesUpdated] = useState(null);
   const memberAccount = changeRolesUserOrg.memberAccount;
   const orgName = changeRolesUserOrg.orgName;
-
-  // Obtener clase CSS según el rol del miembro
-  function getRoleClassName(member) {
-    if (member.is_owner) {
-      return 'ownerRole';
-    } else if (member.is_admin) {
-      return 'adminRole';
-    } else if (member.is_super_reviewer) {
-      return 'superReviewerRole';
-    } else {
-      return 'memberRole';
-    }
-  }
-
-  // Obtener texto del rol del miembro
-  function getRoleLabel(member) {
-    console.log(memberAccount)
-    if (member.is_owner) {
-      return "OWNER";
-    } else if (member.is_admin) {
-      return "ADMIN";
-    } else if (member.is_super_reviewer) {
-      return "SUPER REVIEWER";
-    } else {
-      return "MEMBER";
-    }
-  }
 
   const handleChangeRoles = async (e) => {
     try {

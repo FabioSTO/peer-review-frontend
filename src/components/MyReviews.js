@@ -63,7 +63,7 @@ function MyReviews() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [activeMemberAccount]);
+  }, [activeMemberAccount, selectedOption]);
 
   // Datos de ejemplo para renderizar
   const reviewsTest = [
@@ -185,11 +185,11 @@ function MyReviews() {
     } 
 
     {selectedOption === "new" &&
-      <NewReview />
+      <NewReview setSelectedOptionMenu={setSelectedOption}/>
     } 
 
     {reviewInfo && 
-      <ReviewInfo review={reviewInfo}/>
+      <ReviewInfo review={reviewInfo} setReviewInfo={setReviewInfo} setSelectedOption={setSelectedOption}/>
     }
 
     </div>

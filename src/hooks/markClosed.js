@@ -1,13 +1,9 @@
 import { apiUrl } from "../development";
 
-const endpointUrl = apiUrl + "/gitmembers"; // http://localhost:3001/gitmembers/{memberAccount}/*/{*}/roles
+const endpointUrl = apiUrl + "/reviews"; // http://localhost:3001/reviews/{reviewID}/close
 
-export async function updateMemberRoles(memberAccount, entityName, isOrg, isAdmin, isRevOrSuperRev) {
-  let entityType = "organizations";
-  if (!isOrg) {
-    entityType = "projects";
-  } 
-  let requestUrl = `${endpointUrl}/${memberAccount}/${entityType}/${entityName}/roles`;
+export async function markClosed(reviewID) {
+  const requestUrl = `${endpointUrl}/${reviewID}/close`;
   try {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
 
@@ -16,8 +12,7 @@ export async function updateMemberRoles(memberAccount, entityName, isOrg, isAdmi
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ isAdmin, isRevOrSuperRev })
+      }
     })
 
     if (response.ok) {
@@ -25,7 +20,7 @@ export async function updateMemberRoles(memberAccount, entityName, isOrg, isAdmi
       return result;
     } else {
       const error = await response.json();
-      throw new Error('Error al actualizar roles: ' + error.message);   
+      throw new Error('Error al marcar review como cerrada: ' + error.message);   
     }
 
   } catch (error) {
