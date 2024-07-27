@@ -64,6 +64,29 @@
   transition: outline 0.5s;
 }
 
+#pending {
+  border: 2px solid red;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 0 10px 3px rgba(255, 0, 0, 0.7); 
+  transition: border-color 0.3s ease-in-out; 
+  animation: highlight 2s infinite alternate; 
+}
+
+/* Animación para resaltar */
+@keyframes highlight {
+  from {
+    border-color: rgb(254, 72, 72);
+    box-shadow: 0 0 10px 3px rgba(255, 41, 41, 0.3); 
+  }
+  to {
+    border-color: rgb(233, 75, 51); 
+    box-shadow: 0 0 20px 6px rgba(255, 64, 0, 0.3); 
+  }
+}
+
 .singleReview:hover {
   outline: 8px solid rgb(26, 15, 83);
 }

@@ -17,6 +17,7 @@ const Diff2Html = require('diff2html');
 const NewReview = ({ setSelectedOptionMenu }) => {
   const [error, setError] = useState(null);
   const [organizations, setOrganizations] = useState([]);
+  const [organization, setOrganization] = useState(null);
   const [projects, setProjects] = useState([]);
   const [ selectedOption, setSelectedOption ] = useState("task");
   const [ selectedContentOption, setSelectedContentOption ] = useState(null);
@@ -160,6 +161,7 @@ const NewReview = ({ setSelectedOptionMenu }) => {
   };
 
   const handleOrgChange = async (event) => {
+    setOrganization(event.target.value);
     const projects = await getProjectsByOrg(event.target.value);
 
     const uniqueProjects = projects.reduce((acc, project) => {
@@ -206,7 +208,7 @@ const NewReview = ({ setSelectedOptionMenu }) => {
       } else if (selectedContentOption === "commit") {
         reviewContent = commitInfo;
       }
-      await addReview( selectedTask, title, desc,  selectedOption, tags, selectedImage, reviewContent, selectedContentOption, memberAccounts[0]);
+      await addReview( selectedTask, title, desc,  selectedOption, tags, selectedImage, reviewContent, selectedContentOption, activeMemberAccount, organization);
       setShowAlert({ show:true, message:"¡Roles guardados con éxito!" });
       setTimeout(() => {
         setShowAlert((prevAlertInfo) => ({ ...prevAlertInfo, show: false }));

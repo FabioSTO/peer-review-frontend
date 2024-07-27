@@ -2,6 +2,8 @@ import { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
 import { useUserContext } from '../context/UserContext';
 import { inviteMembers } from '../hooks/inviteMembers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Overlay = ({orgName, setShowMemberOverlay, setShowAlert}) => {
   const [error, setError] = useState(null);
@@ -58,7 +60,7 @@ const Overlay = ({orgName, setShowMemberOverlay, setShowAlert}) => {
   return (
     <div className="overlay">
       <div className="overlay-content">
-        <button onClick={() => setShowMemberOverlay(false)} id='closeOverlayButton'>Cerrar</button>
+        <button onClick={() => setShowMemberOverlay(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
         <h2 id='title'>{orgName}</h2>
         <h3 id='title'>Invite new members</h3>
         <form id='form' onSubmit={handleAddMember}>

@@ -3,6 +3,8 @@ import { useUserContext } from '../context/UserContext';
 import '../css/overlaynoaccount.css'
 import { getMemberRoles } from '../hooks/getMemberRoles';
 import { updateMemberRoles } from '../hooks/updateMemberRoles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const OverlayChangeRoles = ({ setShowOverlayChangeRoles, setShowAlert, changeRolesUserOrg, isOrg }) => {
   const [error, setError] = useState(null);
@@ -51,7 +53,7 @@ const OverlayChangeRoles = ({ setShowOverlayChangeRoles, setShowAlert, changeRol
   return (
     <div className="overlay">
       <div className="overlay-content" style={{ width: "fit-content", height: "25vh" }}>
-      <button onClick={() => setShowOverlayChangeRoles(false)} id='closeOverlayButton'>Cerrar</button>
+      <button onClick={() => setShowOverlayChangeRoles(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
         <div class="container">
           <h2 id='title'>Change {memberAccount} roles</h2>
           {isOrg && 

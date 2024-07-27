@@ -11,8 +11,11 @@ import { darcula, dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { html, css, javascript, java, python } from 'react-syntax-highlighter/dist/esm/languages/hljs';
 import { useUserContext } from '../context/UserContext';
 import { sendComment } from '../hooks/sendComment';
+import { askAI } from '../hooks/askAI';
 import { getComments } from '../hooks/getComments';
 import OverlayConfirmClose from './OverlayConfirmClose';
+import { setNotPending } from '../hooks/setNotPending';
+import OverlayAI from './OverlayAI';
 const Diff2Html = require('diff2html');
 
 const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
@@ -23,6 +26,9 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
   const [ comments, setComments ] = useState("");
   const [randomBackground, setRandomBackground] = useState('');
   const [showConfirmCloseOverlay, setShowConfirmCloseOverlay] = useState(false);
+  const [showAIOverlay, setShowAIOverlay] = useState(false);
+  const [AIComment, setAIComment] = useState(null);
+  const [alreadyAskedAI, setAlreadyAskedAI] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [showAlert, setShowAlert] = useState({show: false, message: ''});
 
@@ -34,6 +40,21 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
     setComment(event.target.value);
   };
 
+  const clickedPending = async (review, state) => {
+    try {
+      await setNotPending(review.reviewID, activeMemberAccount, state);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const handleShowAIMessage = (AIShowComment) => {
+    setAIComment(AIShowComment);
+    setShowAIOverlay(true);
+  }
+
+
+
   const handleSendComment = async (event) => {
     event.preventDefault();
     try {
@@ -41,6 +62,25 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
       const commentaries = await getComments( review.reviewID );
       setComments(commentaries)
       setComment("");
+      clickedPending(review, true);
+
+    } catch (error) {
+      setError(error.message)
+    }
+  };
+
+  const handleAskAI = async (event) => {
+    event.preventDefault();
+    try {
+      await askAI( review.reviewID );
+      const commentaries = await getComments( review.reviewID );
+      setComments(commentaries)
+      const hasAICapeerUser = commentaries.some(comment => comment.member_account === "AICapeerUser");
+      if (hasAICapeerUser) {
+        setAlreadyAskedAI(true)
+      }
+      setComment("");
+      clickedPending(review, true);
 
     } catch (error) {
       setError(error.message)
@@ -78,6 +118,10 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
       try {
         const commentaries = await getComments( review.reviewID );
         setComments(commentaries)
+        const hasAICapeerUser = commentaries.some(comment => comment.member_account === "AICapeerUser");
+        if (hasAICapeerUser) {
+          setAlreadyAskedAI(true)
+        }
       } catch (error) {
         console.error(error.message);
       }
@@ -109,6 +153,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
 
   return ( 
       <div className='reviewsContainerInfo'>
+        {showAIOverlay && <OverlayAI comment={AIComment} setShowAIOverlay={setShowAIOverlay}/>}
         <div className='singleReviewContainer' style={{cursor: "default"}}>
         {isOpen && (
         <div className="modal-overlay" onClick={closeModal}>
@@ -134,7 +179,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
             </div>
           </div>
         </div>
-        {review.review_image && <h5 onClick={toggleModal} id='seeImg' style={{marginTop: "-5px", marginLeft: "270px", width: 'fit-content', color: "white", backgroundColor : "#201863", cursor: "pointer", padding: "3px", border: "solid 2px", borderRadius: "10px" }}>See image</h5>}
+        {review.review_image && <h5 onClick={toggleModal} id='seeImg' style={{marginTop: "-5px", marginLeft: "270px", width: 'fit-content', color: "white", backgroundColor : "#201863", cursor: "pointer", padding: "3px", border: "solid 2px", borderRadius: "10px" }}>View image 📷</h5>}
         {comments && review.review_content_type === "Code" && 
         
         <div className='codeAndComments'>
@@ -144,6 +189,10 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
               </SyntaxHighlighter>
           </div>
           <div className='commentsContainer'>
+          <div style={{display: "flex", justifyContent: "space-between", marginBottom: "20px"}}>
+            <span id='commentsSpan'>Comments</span>
+            {review.member_account === activeMemberAccount && alreadyAskedAI === false && <span id='commentsSpanAI' onClick={handleAskAI}>Ask AI</span>}
+          </div>
             <div className='commentContent'>
               {comments && comments.map((comment, index) => (
                 <div className={`commentary-wrapper ${comment.member_account === activeMemberAccount ? 'commentary-wrapperMine' : ''}`} key={index}>
@@ -151,7 +200,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
                     {comment.member_account !== activeMemberAccount && 
                       <span className='commentUser'>{comment.member_account}</span>
                     }
-                    <span className='commentMessage'>{comment.comment_content} </span>
+                    {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
                     <span className='commentDate'>{new Date(comment.comment_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} </span>
                   </div>
                 </div>
@@ -176,6 +225,10 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
               </SyntaxHighlighter>
             </div>
             <div className='commentsContainerDiff'>
+            <div style={{display: "flex", justifyContent: "space-between", marginBottom: "20px"}}>
+              <span id='commentsSpan'>Comments</span>
+              {review.member_account === activeMemberAccount && alreadyAskedAI === false && <span id='commentsSpanAI' onClick={handleAskAI}>Ask AI</span>}
+            </div>
               <div className='commentContent'>
                 {comments && comments.map((comment, index) => (
                   <div className={`commentary-wrapper ${comment.member_account === activeMemberAccount ? 'commentary-wrapperMine' : ''}`} key={index}>
@@ -183,7 +236,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
                       {comment.member_account !== activeMemberAccount && 
                         <span className='commentUser'>{comment.member_account}</span>
                       }
-                      <span className='commentMessage'>{comment.comment_content} </span>
+                      {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
                       <span className='commentDate'>{new Date(comment.comment_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} </span>
                     </div>
                   </div>
@@ -206,6 +259,10 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
               </div>
             </div>
             <div className='commentsContainerDiff'>
+            <div style={{display: "flex", justifyContent: "space-between", marginBottom: "20px"}}>
+              <span id='commentsSpan'>Comments</span>
+              {review.member_account === activeMemberAccount && alreadyAskedAI === false && <span id='commentsSpanAI' onClick={handleAskAI}>Ask AI</span>}
+            </div>
               <div className='commentContent'>
                 {comments && comments.map((comment, index) => (
                   <div className={`commentary-wrapper ${comment.member_account === activeMemberAccount ? 'commentary-wrapperMine' : ''}`} key={index}>
@@ -213,7 +270,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
                       {comment.member_account !== activeMemberAccount && 
                         <span className='commentUser'>{comment.member_account}</span>
                       }
-                      <span className='commentMessage'>{comment.comment_content} </span>
+                      {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
                       <span className='commentDate'>{new Date(comment.comment_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} </span>
                     </div>
                   </div>

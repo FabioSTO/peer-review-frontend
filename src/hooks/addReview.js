@@ -2,7 +2,7 @@ import { apiUrl } from "../development";
 
 const endpointUrl = apiUrl + "/tasks"; // http://localhost:3001/tasks/{taskID}/reviews
 
-export async function addReview(taskID, title, desc, scope, tags, image, reviewContent, contentType, member) {
+export async function addReview(taskID, title, desc, scope, tags, image, reviewContent, contentType, member, organization) {
   let requestUrl = `${endpointUrl}/${taskID}/reviews`;
   try {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
@@ -15,6 +15,7 @@ export async function addReview(taskID, title, desc, scope, tags, image, reviewC
     formData.append('reviewContent', reviewContent);
     formData.append('contentType', contentType);
     formData.append('member', JSON.stringify(member));
+    formData.append('organization', organization);
 
     if (image) {
       formData.append('image', image);

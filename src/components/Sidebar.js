@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logoOrganizacion from '../img/logoOrganizacion.jpeg';
 import logoOrg1 from '../img/paraprobar/denodo.jpg';
 import logoOrg2 from '../img/paraprobar/si.png';
@@ -7,10 +7,21 @@ import logoPro2 from '../img/paraprobar/macaco_azul.jpg';
 import logoPro3 from '../img/paraprobar/Mono.jpg';
 import logoPro4 from '../img/paraprobar/aroFuego.jpg';
 import '../css/sidebar.css'
+import { getOrganizations } from '../hooks/getOrganizations';
+import { getProjectsByOrg } from '../hooks/getProjectsByOrg';
+import { useUserContext } from '../context/UserContext';
+import { useMenuContext } from '../context/MenuContext';
 
 function Sidebar() {
   const [showMyOrganizations, setShowMyOrganizations] = useState(true)
   const [showMyProjects, setShowMyProjects] = useState([])
+  const { userID } = useUserContext();
+  const { selectedTopMenu, setSelectedProject, setTopSelectedMenu} = useMenuContext();
+  const [organizations, setOrganizations] = useState([]);
+  const [projects, setProjects] = useState([]);
+
+  const organizationLogos = [logoOrg1, logoOrg2];
+  const projectLogos = [logoPro1, logoPro2, logoPro3, logoPro4];
 
   const handleMyOrganizations = () => {setShowMyOrganizations(!showMyOrganizations)}
   
@@ -22,24 +33,50 @@ function Sidebar() {
     })
   }
 
-  const organizations = [
-    {
-      orgName: 'Organization 1',
-      orgPicture: logoOrg1,
-      projects: [
-        { proName: 'Project 1', proPicture: logoPro1},
-        { proName: 'Project 2', proPicture: logoPro2}
-      ]
-    },
-    {
-      orgName: 'Organization 2',
-      orgPicture: logoOrg2,
-      projects: [
-        { proName: 'Project 1', proPicture: logoPro3},
-        { proName: 'Project 2', proPicture: logoPro4}
-      ]
-    }
-  ]
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      try {
+        const organizations = await getOrganizations(userID);         
+          
+        if (organizations) {
+          setOrganizations(organizations);
+          
+          const promises = organizations.map(async (organization) => {
+            const projects = await getProjectsByOrg(organization.orgname); // Obtener los proyectos de la organización
+            const uniqueProjectsMap = new Map();
+
+            projects.forEach(pro => {
+              uniqueProjectsMap.set(pro.proname, pro);
+            });
+
+            const uniqueProjects = Array.from(uniqueProjectsMap.values());
+            return { projects: uniqueProjects };
+          });
+        
+          Promise.all(promises)
+          .then((data) => {
+            const allProjects = data.flatMap(item => item.projects); // Combino el array de arrays de proyectos
+            setProjects(allProjects);
+          })
+          .catch((error) => {
+            console.error('Error al obtener proyectos:', error);
+          });
+        }
+
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    
+    fetchData();
+
+  }, [selectedTopMenu]);
+
+  const handleSelectProject = (project) => {
+    setSelectedProject(project);
+    setTopSelectedMenu('project')
+  }
 
   return (
     <div className="sidebar">
@@ -53,17 +90,17 @@ function Sidebar() {
           {organizations.map((organization, orgIndex) => (
             <div className='pepe' key={orgIndex}>
               <li className='sidebarOrg'  onClick={() => handleMyProjects(orgIndex)}>
-                <img className='logoSidebarOrg' src={organization.orgPicture}></img>
-                <div className='sidebarSectionOrg'>{organization.orgName}</div>
+                <img className='logoSidebarOrg' src={organizationLogos[orgIndex % organizationLogos.length]}></img>
+                <div className='sidebarSectionOrg'>{organization.orgname}</div>
               </li>
-              { showMyProjects[orgIndex] && (
+              { showMyProjects[orgIndex] && ( 
                 <ul className='itemList'>
-                  {organization.projects.map((project, proIndex) => 
-                    <li className='sidebarPro' key={proIndex}>
-                      <img className='logoSidebarPro' src={project.proPicture}></img>
-                      <div className='sidebarSectionPro'>{project.proName}</div>
+                  {projects.map((project, proIndex) => (project.orgname === organization.orgname && (
+                    <li className='sidebarPro' key={proIndex} onClick={() => handleSelectProject(project)}>
+                      <img className='logoSidebarPro' src={projectLogos[proIndex % projectLogos.length]}></img>
+                      <div className='sidebarSectionPro'>{project.proname}</div>
                     </li>
-                  )}
+                  )))}
                 </ul>
               )}
             </div>

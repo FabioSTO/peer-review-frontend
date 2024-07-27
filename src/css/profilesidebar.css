@@ -38,11 +38,12 @@
 }
 
 .profileSidebarPicNameClose #username {
-  margin-right: 80px;
+  margin-right: 100px;
 }
 
 .profileSidebarPicNameClose #boton {
-  margin-right: 10px;
+  margin-right: 20px;
+  cursor: pointer;
 }
 
 .separator {

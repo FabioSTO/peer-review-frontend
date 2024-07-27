@@ -2,6 +2,8 @@ import { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
 import { addTask } from '../hooks/addTask'
 import { useUserContext } from '../context/UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Overlay = ({project, setShowAddTaskOverlay, projectMembers, setShowAlert}) => {
   const [error, setError] = useState(null);
@@ -31,10 +33,10 @@ const Overlay = ({project, setShowAddTaskOverlay, projectMembers, setShowAlert})
   return (
     <div className="overlay">
       <div className="overlay-content">
-        <button onClick={() => setShowAddTaskOverlay(false)} id='closeOverlayButton'>Cerrar</button>
+        <button onClick={() => setShowAddTaskOverlay(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
         <h2 id='title'>Create new task</h2>
         <h3 id='title'>Assign members from <span style={{ color: 'orange' }}>{project.proname}</span></h3>
-        <form id='form' onSubmit={handleAddTask}>
+        <form id='editForm' onSubmit={handleAddTask}>
           <select className='inputForm' id="select" list="memberAccounts" placeholder='Members' onChange={handleMemberAccountChange} required>
           {projectMembers.length > 0 ? (
             <>

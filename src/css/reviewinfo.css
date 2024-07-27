@@ -70,6 +70,30 @@
   padding-top: 10px;
 }
 
+#commentsSpan {
+  color:aliceblue;
+  font-weight: bold;
+  margin-left: 12px;
+}
+
+#commentsSpanAI {
+  color:#61c4c4;
+  font-size:small;
+  font-weight: bold;
+  margin-right: 12px;
+  border: solid 2px rgb(187, 223, 255);
+  border-radius: 5px;
+  padding: 3px;
+  background-color: aliceblue;
+  outline: solid 1px #61c4c4;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+#commentsSpanAI:hover {
+  background-color: rgb(49, 43, 80);
+}
+
 .commentsContainerDiff {
   display: flex;
   flex-direction: column;
@@ -160,6 +184,23 @@
 
 .commentMessage {
   color:antiquewhite;
+}
+
+#commentMessageAI {
+  cursor: pointer;
+  border: #61c4c4 solid 2px;
+  border-radius: 10px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding: 3px;
+  background-color: rgb(43, 184, 137);
+  transition: background-color 0.15s;
+  font-weight: 600;
+}
+
+#commentMessageAI:hover {
+  cursor: pointer;
+  background-color: #0c3f61;
 }
 
 .commentDate {

@@ -6,6 +6,7 @@ import fondoProyecto2 from '../img/fondoProyecto2.jpeg';
 import fondoProyecto3 from '../img/fondoProyecto3.jpeg';
 import { getSubmissions } from '../hooks/getSubmissions';
 import { getReviews } from '../hooks/getReviews';
+import { setNotPending } from '../hooks/setNotPending';
 import { useUserContext } from '../context/UserContext';
 import NewReview from './NewReview';
 import ReviewInfo from './ReviewInfo';
@@ -20,6 +21,8 @@ function MyReviews() {
   const [ reviewInfo, setReviewInfo ] = useState(null);
   const [showAllComments, setShowAllComments] = useState(window.innerWidth > 1350);
   const { memberAccounts, userID, activeMemberAccount } = useUserContext();
+  const [ totalPendingSubmissions, setTotalPendingSubmissions] = useState(0);
+  const [ totalPendingReviews, setTotalPendingReviews] = useState(0);
 
   // Manejador para alternar el estado de un elemento
   const handleLogChat = (index) => {
@@ -30,8 +33,17 @@ function MyReviews() {
     });
   };
 
+  const clickedPending = async (review, state) => {
+    try {
+      await setNotPending(review.reviewID, activeMemberAccount, state);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const handleReviewInfo = (submission) => {
     setSelectedOption(null);
+    clickedPending(submission, false);
     setReviewInfo(submission);
   };
 
@@ -47,6 +59,14 @@ function MyReviews() {
         const reviews = await getReviews(activeMemberAccount);
         setSubmissions(submissions);
         setReviews(reviews);
+
+        const pendingSubmissions = submissions.filter(submission => submission.pending === 1);
+        setTotalPendingSubmissions(pendingSubmissions.length);
+
+        const pendingReviews = reviews.filter(review => review.pending === 1);
+        setTotalPendingReviews(pendingReviews.length);
+        
+
       } catch (error) {
         console.error(error.message);
       }
@@ -112,9 +132,10 @@ function MyReviews() {
 
       {selectedOption === "reviews" && reviews &&
       <div className='reviewsContainer'>
+      {totalPendingReviews !== 0 ? (<h5 className='invitationsNotice'>You have {totalPendingReviews} pending reviews for today! </h5>) : <></>}
       {reviews.map((review, index) => (
         <div className='singleReviewContainer' key={index}>
-          <div className='singleReview' onClick={() => handleReviewInfo(review)}>
+          <div className='singleReview' id={review.pending === 1 ? 'pending' : undefined} onClick={() => handleReviewInfo(review)}>
             <div className='reviewProject' style={{ backgroundImage: `url(${reviewsTest[index%3].projectBackgroundPicture})`, borderRadius: '10px 10px 0 0' }}>
               <h1>{review.proname}</h1>
               <img className='chatLogo' src={chatLogo} onClick={(event) => {event.stopPropagation(); handleLogChat(index)}}/>
@@ -149,9 +170,10 @@ function MyReviews() {
 
     {selectedOption === "submissions" && submissions &&
       <div className='reviewsContainer'>
+      {totalPendingSubmissions !== 0 ? (<h5 className='invitationsNotice'>You have new comments in {totalPendingSubmissions} submissions! </h5>) : <></>}
       {submissions.map((submission, index) => (
         <div className='singleReviewContainer' key={index}>
-          <div className='singleReview' onClick={() => handleReviewInfo(submission)}>
+          <div className='singleReview' id={submission.pending === 1 ? 'pending' : undefined} onClick={() => handleReviewInfo(submission)}>
             <div className='reviewProject' style={{ backgroundImage: `url(${reviewsTest[index%3].projectBackgroundPicture})`, borderRadius: '10px 10px 0 0' }}>
               <h1>{submission.proname}</h1>
               <img className='chatLogo' src={chatLogo} onClick={(event) => {event.stopPropagation(); handleLogChat(index)}}/>
@@ -195,38 +217,5 @@ function MyReviews() {
     </div>
   );
 }
-
-/* 
-<div className='reviewsContainer'>
-        {reviewsTest.map((review, index) => (
-          <div className='singleReviewContainer' key={index}>
-            <div className='singleReview'>
-              <div className='reviewProject' style={{ backgroundImage: `url(${review.projectBackgroundPicture})`, borderRadius: '10px 10px 0 0' }}>
-                <h1>{review.projectName}</h1>
-                <img className='chatLogo' src={chatLogo} onClick={() => handleLogChat(index)}/>
-              </div>
-              <div className='reviewsAndTags'>
-                <h2 className='reviewTitle'>{review.reviewTitle}</h2>
-                <ul className='tagList'>
-                  {review.tags.map((tag, tagIndex) => (
-                    <li className='tag' key={tagIndex}>{tag}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            {(isChatLogOpen[index] || showAllComments) && (
-              <div className='reviewLog'>
-                {review.userLogs.map((log, logIndex) => (
-                  <div className='userAndLog' key={logIndex}>
-                    <h3 className='userLogUser'>{log.user}:</h3>
-                    <h3 className='userLog'>{log.log}</h3>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-*/
 
 export default MyReviews;

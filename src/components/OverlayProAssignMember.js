@@ -5,6 +5,8 @@ import { inviteMembers } from '../hooks/inviteMembers';
 import { getMembersByOrg } from '../hooks/getMembersByOrg';
 import { getProjectMembers } from '../hooks/getProjectMembers';
 import { addProjectMembers } from '../hooks/addProjectMembers';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Overlay = ({project, setShowMemberProjectOverlay, setShowAlert}) => {
   const [error, setError] = useState(null);
@@ -56,7 +58,7 @@ const Overlay = ({project, setShowMemberProjectOverlay, setShowAlert}) => {
   return (
     <div className="overlay">
       <div className="overlay-content">
-        <button onClick={() => setShowMemberProjectOverlay(false)} id='closeOverlayButton'>Cerrar</button>
+        <button onClick={() => setShowMemberProjectOverlay(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
         <h2 id='title'>{project.proname}</h2>
         <h3 id='title'>Assign members from <span style={{ color: 'orange' }}>{project.orgname}</span></h3>
         <form id='form' onSubmit={handleAssignProMember}>

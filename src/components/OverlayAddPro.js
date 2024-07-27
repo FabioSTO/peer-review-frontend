@@ -2,6 +2,8 @@ import { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
 import { addProject } from '../hooks/addProject';
 import { useUserContext } from '../context/UserContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Overlay = ({setShowProOverlay, orgMembers, orgName, setShowAlert}) => {
   const [error, setError] = useState(null);
@@ -31,7 +33,7 @@ const Overlay = ({setShowProOverlay, orgMembers, orgName, setShowAlert}) => {
   return (
     <div className="overlay">
       <div className="overlay-content">
-        <button onClick={() => setShowProOverlay(false)} id='closeOverlayButton'>Cerrar</button>
+        <button onClick={() => setShowProOverlay(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
         <h2 id='title'>Create new project</h2>
         <form id='form' onSubmit={handleAddProject}>
           <select className='inputForm' id="select" list="memberAccounts" placeholder='Members' onChange={handleMemberAccountChange} required>

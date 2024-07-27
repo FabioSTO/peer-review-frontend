@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import overlayaddorg from '../css/overlayaddorg.css'
 import { respondInvitation } from '../hooks/respondInvitation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
 const Overlay = ({invitations, setShowInvOverlay, setShowAlert}) => {
@@ -23,7 +25,7 @@ const Overlay = ({invitations, setShowInvOverlay, setShowAlert}) => {
   return (
     <div className="overlay">
       <div className="overlay-content">
-        <button onClick={() => setShowInvOverlay(false)} id='closeOverlayButton'>Cerrar</button>
+        <button onClick={() => setShowInvOverlay(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
         <h3 id='title'>Pending invitations</h3>
         <div className='invitationsOverlay'>
           {invitations.map((invitation, invIndex) => (

@@ -65,6 +65,14 @@
   padding-left: 10px;
 }
 
+.overlay-content #editForm {
+  border: solid 1px rgb(0, 0, 0);
+  border-radius: 5px;
+  height: 300px;
+  padding-left: 10px;
+  overflow-y: auto;
+}
+
 .overlay-content #add {
   margin-right: 20px;
   background-color: rgb(15, 8, 45);

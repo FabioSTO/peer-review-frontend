@@ -95,7 +95,7 @@ function MyProject() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [showAddTaskOverlay, showMemberProjectOverlay, showOverlayChangeRoles]);
+  }, [showAddTaskOverlay, showMemberProjectOverlay, showOverlayChangeRoles, showTaskOverlay, selectedProject]);
 
   return (
     <div className='selProjectContainer'>
