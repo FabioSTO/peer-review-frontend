@@ -6,32 +6,45 @@
 }
 
 .reviewOptions {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 40px;
   color: #eee5e5;
+  margin: 20px auto; /* Ajusta el margen para centrar */
   margin-left: 230px;
-}
-
-#reviewOption {
-  border: solid 2px #ccc;
-  padding: 5px;
-  border-radius: 10px;
-  background-color: rgb(26, 15, 83);
-  border-radius: 10px;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .reviewOption {
   cursor: pointer;
-  background-color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: rgb(26, 15, 83);
+  color: #fff;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.reviewOption:hover {
+  background-color: rgb(34, 20, 105);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px); /* Efecto de elevación */
 }
 
 .reviewOption.selected {
-  outline: solid 3.5px rgb(98, 0, 255);
+  background-color: rgb(98, 0, 255);
+  color: #fff;
+  border: 2px solid rgb(98, 0, 255);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.reviewOption.selected:hover {
+  background-color: rgb(86, 0, 223);
+  border-color: rgb(86, 0, 223);
 }
 
 .reviewsContainer {

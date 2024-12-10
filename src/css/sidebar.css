@@ -47,14 +47,14 @@
 .sidebarOrg {
   display:flex;
   flex-direction: row;
-  background-color: #eee5e5;
+  background-color: #d9e4e7;
   color: rgb(8, 1, 17);
   border: solid rgb(218, 218, 218) 1px;
 }
 
 .sidebarSectionOrg {
   display: block;
-  background-color: #eee5e5;
+  background-color: #d9e4e7;
   color: rgb(8, 1, 17);
   padding: 16px;
   text-decoration: none;
@@ -95,7 +95,7 @@
 .sidebarPro {
   display:flex;
   flex-direction: row;
-  background-color: #f0d4d4;
+  background-color: #c4cce7;
   color: rgb(8, 1, 17);
   border: solid rgb(218, 218, 218) 1px;
   border-left: solid 3px rgb(20, 12, 60);
@@ -104,7 +104,7 @@
 
 .sidebarSectionPro {
   display: block;
-  background-color: #f0d4d4;
+  background-color: #c4cce7;
   color: rgb(8, 1, 17);
   padding: 16px;
   text-decoration: none;

@@ -52,7 +52,7 @@ const OverlayChangeRoles = ({ setShowOverlayChangeRoles, setShowAlert, changeRol
 
   return (
     <div className="overlay">
-      <div className="overlay-content" style={{ width: "fit-content", height: "25vh" }}>
+      <div className="overlay-content" style={{ width: "fit-content", height: "28vh" }}>
       <button onClick={() => setShowOverlayChangeRoles(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
         <div class="container">
           <h2 id='title'>Change {memberAccount} roles</h2>

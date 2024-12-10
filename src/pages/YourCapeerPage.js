@@ -21,6 +21,8 @@ function YourCapeerPage() {
 
   let interfaceComponent;
 
+  console.log(memberAccounts);
+
   // Qué componente mostrar del topMenu
   if (selectedTopMenu === 'reviews') {
     interfaceComponent = <MyReviews />;
@@ -43,7 +45,7 @@ function YourCapeerPage() {
         <div className='subMainInterface'>
           <div className='fixid'><TopMenu /></div>
           { interfaceComponent }
-          {!memberAccounts && <OverlayNoAccount />}
+          {(!memberAccounts || memberAccounts.length < 1) && <OverlayNoAccount />}
           {memberAccounts !== null && showOverlayChooseAccount && (memberAccounts.length > 1) && <OverlayChooseAccount setShowOverlayChooseAccount={setShowOverlayChooseAccount}/>}
         </div>
       </div>

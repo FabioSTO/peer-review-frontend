@@ -31,10 +31,10 @@ function RegisterForm() {
         setUsername(name);
         setUserTags(tags);
 
-        const data = await getMemberData(userID);
-        if (data) {
-          setMemberAccounts(data);
-        }
+        // const data = await getMemberData(userID);
+        // if (data) {
+        setMemberAccounts([]);
+        // }
         
         navigate('/yourcapeer');
       

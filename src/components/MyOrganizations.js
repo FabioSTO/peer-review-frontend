@@ -147,7 +147,7 @@ function MyOrganizations() {
     } else if (member.is_admin) {
       return "ADMIN";
     } else if (member.is_super_reviewer) {
-      return "SUPER REVIEWER";
+      return "SUPER";
     } else {
       return "MEMBER";
     }
@@ -341,9 +341,13 @@ function MyOrganizations() {
                       )
                     ))}
                   </div>
-                  <h3 className='botonRegister' onClick={() => setShowMemberOverlay(true)}>
+                  {organization.is_admin || organization.is_owner ?  
+                    <h3 className='botonRegister' onClick={() => setShowMemberOverlay(true)}>
                     + INVITE MEMBER
                   </h3>
+                    : <h4 className='orgName' style={{ color: 'orange'}}>No tienes permisos para invitar miembros.</h4>
+                  }
+                  
                 </div>
               }
             </div>
@@ -396,9 +400,12 @@ function MyOrganizations() {
                 )
               ))}
             </div>
-          <h3 className='botonRegister' id='botonRegisterRightInv' onClick={() => setShowMemberOverlay(true)}>
+            {organizations[selectedOrgIndex].is_admin || organizations[selectedOrgIndex].is_owner ?  
+            <h3 className='botonRegister' id='botonRegisterRightInv' onClick={() => setShowMemberOverlay(true)}>
             + INVITE MEMBER
-          </h3>
+            </h3>
+            : <h4 className='orgName' style={{ color: 'orange'}}>No tienes permisos para invitar miembros.</h4>
+          }
         </div>
       }
     </div>

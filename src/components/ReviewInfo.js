@@ -179,7 +179,33 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
             </div>
           </div>
         </div>
-        {review.review_image && <h5 onClick={toggleModal} id='seeImg' style={{marginTop: "-5px", marginLeft: "270px", width: 'fit-content', color: "white", backgroundColor : "#201863", cursor: "pointer", padding: "3px", border: "solid 2px", borderRadius: "10px" }}>View image 📷</h5>}
+        {review.review_image && <h5
+          onClick={toggleModal}
+          id="seeImg"
+          style={{
+            marginLeft: "270px",
+            width: "fit-content",
+            color: "white",
+            background: "linear-gradient(135deg, #6a5acd, #483d8b)", // Añade un gradiente
+            cursor: "pointer",
+            padding: "6px 12px", // Aumenta el padding para hacerlo más espacioso
+            border: "none", // Elimina el borde si no es necesario
+            borderRadius: "12px", // Suaviza las esquinas
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)", // Añade sombra para dar profundidad
+            fontSize: "14px", // Ajusta el tamaño de la fuente
+            transition: "all 0.3s ease", // Transiciones suaves para hover
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "linear-gradient(135deg, #7b68ee, #6a5acd)"; // Cambia el color al pasar el cursor
+            e.currentTarget.style.transform = "scale(1.05)"; // Efecto de aumento
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "linear-gradient(135deg, #6a5acd, #483d8b)"; // Vuelve al color original
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+        >
+          View image 📷
+        </h5>}
         {comments && review.review_content_type === "Code" && 
         
         <div className='codeAndComments'>
@@ -200,7 +226,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
                     {comment.member_account !== activeMemberAccount && 
                       <span className='commentUser'>{comment.member_account}</span>
                     }
-                    {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
+                    {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' style={{backgroundColor: "#e2ecf8", border: 'none', padding: '4px 3px', color: '#333333', fontWeight: "bold"}} onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
                     <span className='commentDate'>{new Date(comment.comment_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} </span>
                   </div>
                 </div>
@@ -236,7 +262,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
                       {comment.member_account !== activeMemberAccount && 
                         <span className='commentUser'>{comment.member_account}</span>
                       }
-                      {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
+                      {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' style={{backgroundColor: "#e2ecf8", border: 'none', padding: '4px 3px', color: '#333333', fontWeight: "bold"}} onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
                       <span className='commentDate'>{new Date(comment.comment_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} </span>
                     </div>
                   </div>
@@ -270,7 +296,7 @@ const ReviewInfo = ({ review, setReviewInfo, setSelectedOption }) => {
                       {comment.member_account !== activeMemberAccount && 
                         <span className='commentUser'>{comment.member_account}</span>
                       }
-                      {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
+                      {comment.member_account === "AICapeerUser" ? <span className='commentMessage' id='commentMessageAI' style={{backgroundColor: "#e2ecf8", border: 'none', padding: '4px 3px', color: '#333333', fontWeight: "bold"}} onClick={() => handleShowAIMessage(comment.comment_content)}>View AI Response</span> : <span className='commentMessage'>{comment.comment_content} </span>}
                       <span className='commentDate'>{new Date(comment.comment_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} </span>
                     </div>
                   </div>

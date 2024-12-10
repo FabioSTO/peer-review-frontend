@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import logoOrganizacion from '../img/logoOrganizacion.jpeg';
 import logoOrg1 from '../img/paraprobar/denodo.jpg';
 import logoOrg2 from '../img/paraprobar/si.png';
+import logoOrg3 from '../img/paraprobar/reacticon.png';
+import logoOrg4 from '../img/paraprobar/CasaTela2.jpeg';
 import logoPro1 from '../img/paraprobar/pueblos-bonitos-cantabria.webp';
 import logoPro2 from '../img/paraprobar/macaco_azul.jpg';
 import logoPro3 from '../img/paraprobar/Mono.jpg';
@@ -20,7 +22,7 @@ function Sidebar() {
   const [organizations, setOrganizations] = useState([]);
   const [projects, setProjects] = useState([]);
 
-  const organizationLogos = [logoOrg1, logoOrg2];
+  const organizationLogos = [logoOrg1, logoOrg2, logoOrg3, logoOrg4];
   const projectLogos = [logoPro1, logoPro2, logoPro3, logoPro4];
 
   const handleMyOrganizations = () => {setShowMyOrganizations(!showMyOrganizations)}
@@ -40,7 +42,15 @@ function Sidebar() {
         const organizations = await getOrganizations(userID);         
           
         if (organizations) {
-          setOrganizations(organizations);
+          const uniqueOrganizations = organizations.reduce((acc, current) => {
+            if (!acc.some(org => org.orgname === current.orgname)) {
+              acc.push(current);
+            }
+            return acc;
+          }, []);
+      
+          // Actualiza el estado con organizaciones únicas
+          setOrganizations(uniqueOrganizations);
           
           const promises = organizations.map(async (organization) => {
             const projects = await getProjectsByOrg(organization.orgname); // Obtener los proyectos de la organización
@@ -57,7 +67,15 @@ function Sidebar() {
           Promise.all(promises)
           .then((data) => {
             const allProjects = data.flatMap(item => item.projects); // Combino el array de arrays de proyectos
-            setProjects(allProjects);
+
+            const uniqueProjects = allProjects.reduce((acc, current) => {
+              if (!acc.some(pro => pro.proname === current.proname)) {
+                acc.push(current);
+              }
+              return acc;
+            }, []);
+
+            setProjects(uniqueProjects);
           })
           .catch((error) => {
             console.error('Error al obtener proyectos:', error);

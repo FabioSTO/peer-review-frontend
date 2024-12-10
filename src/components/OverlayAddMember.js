@@ -59,16 +59,16 @@ const Overlay = ({orgName, setShowMemberOverlay, setShowAlert}) => {
 
   return (
     <div className="overlay">
-      <div className="overlay-content">
+      <div className="overlay-content" style={{height: '55vh'}}>
         <button onClick={() => setShowMemberOverlay(false)} id='closeOverlayButton' style={{cursor: "pointer"}}><FontAwesomeIcon icon={faTimes} /></button>
-        <h2 id='title'>{orgName}</h2>
+        <h1 id='title'>{orgName}</h1>
         <h3 id='title'>Invite new members</h3>
         <form id='form' onSubmit={handleAddMember}>
           <h4>Enter GitHub accounts</h4>  
           <div id='tagsDiv'>
-            <input className='inputForm' id="tagsListInput" placeholder='Members' value={inputValue} onChange={handleInputChange} onKeyDown={handleAddMemberPress}/>
+            <input className='inputForm' style={{marginLeft: '0px'}} id="tagsListInput" placeholder='Members' value={inputValue} onChange={handleInputChange} onKeyDown={handleAddMemberPress}/>
             {members.length > 0 && 
-            <ul className='tagsEnteredList'>
+            <ul className='tagsEnteredList' >
               {members.map((member, index) => (
                 <li key={index} className='tagsEntered'>{member}</li>
               ))}
