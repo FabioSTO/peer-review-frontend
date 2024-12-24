@@ -15,6 +15,10 @@
   width: 100vw;
 }
 
+.Homepage .banner {
+  width: auto;
+}
+
 .capiLogo {
   margin-left: 1%;
   height: 80px;

@@ -7,8 +7,7 @@ import chatLogo from '../img/chat-logo-white.png'
 import '../css/reviewinfo.css'
 import "diff2html/bundles/css/diff2html.min.css";
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { darcula, dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { html, css, javascript, java, python } from 'react-syntax-highlighter/dist/esm/languages/hljs';
+import { darcula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useUserContext } from '../context/UserContext';
 import { sendComment } from '../hooks/sendComment';
 import { askAI } from '../hooks/askAI';

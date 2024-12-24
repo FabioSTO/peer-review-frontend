@@ -18,7 +18,7 @@ root.render(
       <UserProvider>
         <Router>
           <Routes>
-            <Route path='/homepage' element={<Homepage/>} />
+            <Route path='' element={<Homepage/>} />
             <Route path='/login' element={<Loginpage/>} />
             <Route path='/yourcapeer' element={<YourCapeerPage/>} />
             <Route path="/github-callback" element={<GitHubCallbackPage/>} />

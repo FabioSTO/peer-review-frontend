@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../css/overlaynoaccount.css'
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { darcula, dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { darcula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 /*const OverlayAI = ({ comment, setShowAIOverlay }) => {
 

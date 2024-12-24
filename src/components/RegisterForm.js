@@ -81,7 +81,7 @@ function RegisterForm() {
   };
 
   return (
-    <div>
+    <div className='registerFormDiv'>
     {error && <div className="error-message" > {error} </div>}
 
     {!showNameNTags &&

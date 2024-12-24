@@ -47,7 +47,7 @@ function LoginForm() {
 
   return (
     <div className='loginNRegisterContainer'>
-      <div className={`loginSection ${showRegister ? 'opacityEffect' : ''}`}>
+      <section className={`loginSection ${showRegister ? 'opacityEffect' : ''}`}>
         <h1 className='loginTitle'>INICIAR SESIÓN</h1>
         {error && <div className="error-message" > {error} </div>}
         <form className='form' id='loginForm' onSubmit={handleLoginAccount}>
@@ -55,12 +55,14 @@ function LoginForm() {
           <input type='password' placeholder='Password' className='inputForm' value={password} onChange={e => setPassword(e.target.value)} required/>
           <button className='botonRegister' id='formButton'>LOGIN</button>
         </form>
-      </div>
-      <div className='registerSection'>
-        <h5 className='registerTitle'>¿AÚN NO TIENES CUENTA?</h5>
-        <button className={`botonRegister ${showRegister ? 'opacityEffect' : ''}`} id='formButton' onClick={handleShowRegister}>REGISTER</button>
+      </section>
+      <section className='registerSection'>
+        <div>
+          <h5 className='registerTitle'>¿AÚN NO TIENES CUENTA?</h5>
+          <button className={`botonRegister ${showRegister ? 'opacityEffect' : ''}`} id='formButton' onClick={handleShowRegister}>REGISTER</button>
+        </div>
         {showRegister && <RegisterForm />}
-      </div>
+      </section>
     </div>
   )
 }

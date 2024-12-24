@@ -1,7 +1,9 @@
 .loginNRegisterContainer {
+  background: linear-gradient(145deg, #282846, #1a1a2e);
   display: flex;
   flex-direction: column;
-  border: solid 5px rgb(20, 12, 60);
+  border: none;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
   border-radius: 20px;
   width: 60%;
   min-width: 60%;
@@ -29,16 +31,15 @@
   
 }
 
-#loginFormReg {
-  margin-left: 50%;
+.registerFormDiv {
+  margin: auto;
+  margin-top: 40px;
 }
 
 .registerSection {
   display: flex;
-  flex-direction: row;
-  margin-top: 60px;
-  margin-left: 50px;
-  margin-right: 20px;
+  flex-direction: column;
+  margin-top: 40px;
 }
 
 .form {
@@ -139,6 +140,10 @@
 }
 
 @media screen and (max-width: 1050px) {
+  .loginNRegisterContainer {
+    width: 90%;
+  }
+
   .registerSection {
     display: flex;
     flex-direction: column;

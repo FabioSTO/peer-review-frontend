@@ -1,55 +1,85 @@
+.Tutoriales {
+  padding: 50px 20px;
+}
+
 .Tutoriales .tuto-container {
-  display:flex;
-  margin: 5%;
-  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  overflow-x:auto;
-  cursor: grab;      /*cambia cursor a agarre*/
-  user-select: none; /*no agarra texto*/
-  scrollbar-width: none;
-  transition: 10s;
-  scroll-behavior:smooth;
-  text-align:center;
-}
-
-@media screen and (max-width: 1050px) {
-  .Tutoriales .tuto-container {
-    flex-direction: column; /* Cambia la dirección del flex a columna */
-    align-items: center;
-  }
-  .tuto {
-    min-width: 60%;
-  }
-}
-
-.Tutoriales img {
-  height:150px;
-  width:auto;
-  margin: 3%;
-  border-radius: 100%;
-}
-
-.TutoText {
-  color:antiquewhite;
-  text-align:left;
-}
-
-.TutoTextTitle {
-  color: antiquewhite;
-  text-align:center;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .tuto {
-  border: solid 5px rgb(20, 12, 60);
+  background: linear-gradient(145deg, #282846, #1a1a2e);
+  color: white;
+  border: none;
   border-radius: 20px;
-  max-width: 100%;
-  width: 33%;
-  margin: 2%;
-  padding: 15px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 320px;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
 }
+
+.tuto:hover {
+  transform: scale(1.05); 
+  box-shadow: 0px 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+.TutoTextTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #f8f9fa;
+}
+
+.TutoText {
+  font-size: 1.3rem;
+  color: #dcdde1;
+  margin: 10px 0;
+}
+
+.Tutoriales img {
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.Tutoriales img:hover {
+  transform: rotate(10deg) scale(1.1);
+}
+
+@media screen and (max-width: 768px) {
+  .tuto-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .tuto {
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .TutoText {
+    font-size: 1rem;
+  }
+
+  .TutoTextTitle {
+    font-size: 1.2rem;
+  }
+}
+
 
 .register {
   margin-top: 50px;
+  margin-bottom: 50px;
   display:flex;
   justify-content: center;
 }

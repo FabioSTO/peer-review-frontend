@@ -10,8 +10,7 @@ import Alert from './Alert';
 import "diff2html/bundles/css/diff2html.min.css";
 import { getRepositories } from '../hooks/getRepositories';
 import { LightAsync as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { darcula, dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import { html, css, javascript, java, python } from 'react-syntax-highlighter/dist/esm/languages/hljs';
+import { darcula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 const Diff2Html = require('diff2html');
 
 const NewReview = ({ setSelectedOptionMenu }) => {
@@ -445,7 +444,7 @@ const NewReview = ({ setSelectedOptionMenu }) => {
               type="file"
               accept="image/*"
               id="file-input"
-              onChange={handleImageChange}
+              onChange={handleImageChange} disabled
             />
             <label htmlFor="file-input" className="custom-file-upload">
             Choose File
